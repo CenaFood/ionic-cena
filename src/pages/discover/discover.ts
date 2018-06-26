@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController } from 'ionic-angular';
 
 /**
  * Generated class for the DiscoverPage page.
@@ -14,7 +14,7 @@ import { NavController, NavParams } from 'ionic-angular';
 })
 export class DiscoverPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController) {
   }
 
   ionViewDidLoad() {
