@@ -13,6 +13,29 @@
 </ion-header>
 
 
-<ion-content padding>
-
+<ion-content padding class="discover">
+  <div swing-stack #myswing1 [stackConfig]="stackConfig" (throwoutleft)="voteUp(true)" (throwoutright)="voteUp(false)" (throwoutup)="voteNofood()"
+    id="card-stack">
+    <ion-card #mycards1 swing-card *ngFor="let c of cards">
+      <img *ngIf="c.picture" [src]="c.picture.large">
+    </ion-card>
+  </div>
+  <ion-row *ngIf="cards?.length > 0" class="button-row">
+    <ion-col>
+      <button ion-button outline color="dislike" (click)="voteUp(false)">
+        <ion-icon name="thumbs-down"></ion-icon>
+      </button>
+    </ion-col>
+    <ion-col>
+      <button ion-button outline color="nonfood" (click)="voteNofood()">
+        <ion-icon name="pizza"></ion-icon>
+      </button>
+    </ion-col>
+    <ion-col>
+      <button ion-button outline color="like" (click)="voteUp(true)">
+        <ion-icon name="thumbs-up"></ion-icon>
+      </button>
+    </ion-col>
+  </ion-row>
+  <p style="text-align: center; width: 100%;">{{ recentCard }}</p>
 </ion-content>
