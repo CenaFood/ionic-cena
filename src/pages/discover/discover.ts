@@ -24,33 +24,65 @@ export class DiscoverPage {
 
   cards: Array<any>;
   stackConfig: StackConfig;
-  recentCard: string = '';
 
   constructor(private http: Http) {
     this.stackConfig = {
+      // Default setting only allows UP, LEFT and RIGHT so you can override this as below
+      allowedDirections: [Direction.UP, Direction.LEFT, Direction.RIGHT],
+      // Now need to send offsetX and offsetY with element instead of just offset
       throwOutConfidence: (offsetX, offsetY, element) => {
         return Math.min(Math.max(Math.abs(offsetX) / (element.offsetWidth / 1.7), Math.abs(offsetY) / (element.offsetHeight / 2)), 1);
       },
-      allowedDirections: [Direction.LEFT, Direction.UP, Direction.RIGHT],
       transform: (element, x, y, r) => {
         this.onItemMove(element, x, y, r);
       },
       throwOutDistance: (d) => {
         return 800;
       }
-    };
+    }
+
+    this.cards = [
+      { picture: 'https://cenaswiper.luethi.rocks/images/1675561536149857669.jpg'},
+      { picture: 'https://cenaswiper.luethi.rocks/images/1675263681855723195.jpg'},
+      { picture: 'https://cenaswiper.luethi.rocks/images/1675553610091278380.jpg'},
+      { picture: 'https://cenaswiper.luethi.rocks/images/1675557316270604947.jpg'},
+      { picture: 'https://cenaswiper.luethi.rocks/images/1675557671938068223.jpg'},
+      { picture: 'https://cenaswiper.luethi.rocks/images/1675553610091278380.jpg'},
+      { picture: 'https://cenaswiper.luethi.rocks/images/1675557316270604947.jpg'},
+      { picture: 'https://cenaswiper.luethi.rocks/images/1675557671938068223.jpg'}
+    ];
   }
 
   ngAfterViewInit() {
-    // Either subscribe in controller or set in HTML
-    this.swingStack.throwin.subscribe((event: DragEvent) => {
-      event.target.style.background = '#ffffff';
-    });
+    // ViewChild & ViewChildren are only available
+    // in this function
 
-    this.cards = [{ email: '' }];
-    this.addNewCards(1);
+    console.log(this.swingStack); // this is the stack
+    console.log(this.swingCards); // this is a list of cards
+
+    // we can get the underlying stack
+    // which has methods - createCard, destroyCard, getCard etc
+    console.log(this.swingStack.stack);
+
+    // and the cards
+    // every card has methods - destroy, throwIn, throwOut etc
+    this.swingCards.forEach((c) => console.log(c.getCard()));
+
+    // this is how you can manually hook up to the
+    // events instead of providing the event method in the template
+    this.swingStack.throwoutleft.subscribe(
+      (event: ThrowEvent) => console.log('Manual hook: ', event));
+
+    this.swingStack.dragstart.subscribe((event: DragEvent) => console.log(event));
+
+    this.swingStack.dragmove.subscribe((event: DragEvent) => console.log(event));
   }
 
+  // This method is called by hooking up the event
+  // on the HTML element - see the template above
+  onThrowOut(event: ThrowEvent) {
+    console.log('Hook from the template', event.throwDirection);
+  }
 
   // Called whenever we drag an element
   onItemMove(element, x, y, r) {
@@ -59,11 +91,17 @@ export class DiscoverPage {
     let min = Math.trunc(Math.min(16 * 16 - abs, 16 * 16));
     let hexCode = this.decimalToHex(min, 2);
 
-    if (x < 0) {
+    if ( y < 0) {
+      // Card swipe up
+      color = '#ebebeb';
+    } else if (x < 0) {
+      // Card swipe lef
       color = '#FF' + hexCode + hexCode;
     } else {
+      // Card swipe right
       color = '#' + hexCode + 'FF' + hexCode;
     }
+
 
     element.style.background = color;
     element.style['transform'] = `translate3d(0, 0, 0) translate(${x}px, ${y}px) rotate(${r}deg)`;
@@ -72,28 +110,12 @@ export class DiscoverPage {
   // Connected through HTML
   voteUp(like: boolean) {
     let removedCard = this.cards.pop();
-    this.addNewCards(1);
-    if (like) {
-      this.recentCard = 'You liked: ' + removedCard.email;
-    } else {
-      this.recentCard = 'You disliked: ' + removedCard.email;
-    }
+  
   }
 
   // Connected through HTML
   voteNofood(){
     alert("NoFood")
-  }
-
-  // Add new cards to our array
-  addNewCards(count: number) {
-    this.http.get('https://randomuser.me/api/?results=' + count)
-      .map(data => data.json().results)
-      .subscribe(result => {
-        for (let val of result) {
-          this.cards.push(val);
-        }
-      })
   }
 
   // http://stackoverflow.com/questions/57803/how-to-convert-decimal-to-hex-in-javascript
