@@ -40,44 +40,44 @@ export class DiscoverPage {
         return 800;
       }
     }
+  }
 
-    this.cards = [
+  ngAfterViewInit() {
+      // Either subscribe in controller or set in HTML
+      this.swingStack.throwin.subscribe((event: DragEvent) => {
+        event.target.style.background = '#ffffff';
+      });
+
+      this.cards = [];
+      // this.cards = [{email: ''}];
+      setInterval(() => {this.addNewCards();}, 5000);
+  }
+
+  addNewCards(){
+    let result = [
       { picture: 'https://cenaswiper.luethi.rocks/images/1675561536149857669.jpg'},
       { picture: 'https://cenaswiper.luethi.rocks/images/1675263681855723195.jpg'},
       { picture: 'https://cenaswiper.luethi.rocks/images/1675553610091278380.jpg'},
       { picture: 'https://cenaswiper.luethi.rocks/images/1675557316270604947.jpg'},
-      { picture: 'https://cenaswiper.luethi.rocks/images/1675557671938068223.jpg'},
-      { picture: 'https://cenaswiper.luethi.rocks/images/1675553610091278380.jpg'},
-      { picture: 'https://cenaswiper.luethi.rocks/images/1675557316270604947.jpg'},
       { picture: 'https://cenaswiper.luethi.rocks/images/1675557671938068223.jpg'}
     ];
+    this.cards = this.cards.concat(result).reverse();
+    console.log(this.cards)
+    //for (let val of result) {
+      //console.log("pushing : "+JSON.stringify(val));
+      // this.cards=this.cards.reverse();
+      // if(this.cards.length>1){
+      //   console.log('popping cards');
+      //   let card2=this.cards.pop();
+      //   console.log('popped'+card2);
+      //   let card1=this.cards.pop();
+      //   console.log('popped'+card1);
+      // }
+      //this.cards.push(val);
+      //this.cards.push(val);
+    // }
   }
-
-  ngAfterViewInit() {
-    // ViewChild & ViewChildren are only available
-    // in this function
-
-    console.log(this.swingStack); // this is the stack
-    console.log(this.swingCards); // this is a list of cards
-
-    // we can get the underlying stack
-    // which has methods - createCard, destroyCard, getCard etc
-    console.log(this.swingStack.stack);
-
-    // and the cards
-    // every card has methods - destroy, throwIn, throwOut etc
-    this.swingCards.forEach((c) => console.log(c.getCard()));
-
-    // this is how you can manually hook up to the
-    // events instead of providing the event method in the template
-    this.swingStack.throwoutleft.subscribe(
-      (event: ThrowEvent) => console.log('Manual hook: ', event));
-
-    this.swingStack.dragstart.subscribe((event: DragEvent) => console.log(event));
-
-    this.swingStack.dragmove.subscribe((event: DragEvent) => console.log(event));
-  }
-
+  
   // This method is called by hooking up the event
   // on the HTML element - see the template above
   onThrowOut(event: ThrowEvent) {
@@ -108,14 +108,21 @@ export class DiscoverPage {
   }
 
   // Connected through HTML
-  voteUp(like: boolean) {
-    let removedCard = this.cards.pop();
-  
+  voteLike() {
+    let removedCard = this.swingStack.cards.pop().getCard();
+    removedCard.throwOut(1,0)
+  }
+
+  // Connected through HTML
+  voteDislike(){ 
+    let removedCard = this.swingStack.cards.pop().getCard();
+    removedCard.throwOut(-1,0);
   }
 
   // Connected through HTML
   voteNofood(){
-    alert("NoFood")
+    let removedCard = this.swingStack.cards.pop().getCard();
+    removedCard.throwOut(0,-1);
   }
 
   // http://stackoverflow.com/questions/57803/how-to-convert-decimal-to-hex-in-javascript
