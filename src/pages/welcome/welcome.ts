@@ -1,7 +1,6 @@
 import { AuthProvider } from './../../providers/auth/auth';
 import {Component} from "@angular/core";
-import {Headers, Http} from "@angular/http";
-import {Storage} from "@ionic/storage";
+import {Http} from "@angular/http";
 import 'rxjs/add/operator/map';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 

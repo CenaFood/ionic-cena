@@ -1,8 +1,9 @@
 import { Storage } from '@ionic/storage';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {tokenNotExpired} from 'angular2-jwt';
 import {JwtHelper} from "angular2-jwt";
+import { Response } from '@angular/http';
 
 
 /*
@@ -18,11 +19,11 @@ export class AuthProvider {
   private LOGIN_URL = "https://cenaswiper.luethi.rocks/auth/login";
   private SIGNUP_URL = "https://cenaswiper.luethi.rocks/auth/register";
 
-  contentHeader = new Headers({"Content-Type": "application/json"});
-  jwtHelper = new JwtHelper();
+  private contentHeader = new HttpHeaders({"Content-Type": "application/json"});
+  private jwtHelper = new JwtHelper();
 
-  user:string;
-  error: String;
+  public user:string;
+  public error: String;
 
 
   constructor(public http: HttpClient,private storage: Storage,) {
@@ -42,30 +43,30 @@ export class AuthProvider {
     return JSON.parse(profile);
   }
 
-  login(credentials) {
+  public login(credentials) {
     this.http.post(this.LOGIN_URL, JSON.stringify(credentials), { headers: this.contentHeader })
-      .map(res => res.json())
+      .map((res:Response) => res.json)
       .subscribe(
-        data => this.authSuccess(data.id_token),
+        (data: any) => this.authSuccess(data.id_token),
         err => this.error = err
       );
   }
 
-  signup(credentials) {
+  public signup(credentials) {
     this.http.post(this.SIGNUP_URL, JSON.stringify(credentials), { headers: this.contentHeader })
-      .map(res => res.json())
+      .map((res:Response) => res.json)
       .subscribe(
-        data => this.authSuccess(data.id_token),
+        (data: any) => this.authSuccess(data.id_token),
         err => this.error = err
       );
   }
 
-  logout() {
+  public logout() {
     this.storage.remove('token');
     this.user = null;
   }
 
-  authSuccess(token) {
+  public authSuccess(token) {
     this.error = null;
     this.storage.set('token', token);
     this.user = this.jwtHelper.decodeToken(token).username;
