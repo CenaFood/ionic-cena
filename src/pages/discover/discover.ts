@@ -1,7 +1,6 @@
 import { Component, ViewChild, ViewChildren, QueryList } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { Http } from '@angular/http';
-import 'rxjs/Rx';
 import {
   Direction,
   StackConfig,
@@ -13,11 +12,11 @@ import {
   SwingCardComponent
 } from 'angular2-swing';
 
-
 @Component({
   selector: 'page-discover',
   templateUrl: 'discover.html',
 })
+
 export class DiscoverPage {
   @ViewChild('myswing1') swingStack: SwingStackComponent;
   @ViewChildren('mycards1') swingCards: QueryList<SwingCardComponent>;
@@ -28,18 +27,28 @@ export class DiscoverPage {
   constructor(private http: Http) {
     this.stackConfig = {
       // Default setting only allows UP, LEFT and RIGHT so you can override this as below
-      allowedDirections: [Direction.UP, Direction.LEFT, Direction.RIGHT],
+      allowedDirections: [
+        Direction.UP,
+        Direction.LEFT, 
+        Direction.RIGHT
+      ],
       // Now need to send offsetX and offsetY with element instead of just offset
-      throwOutConfidence: (offsetX, offsetY, element) => {
-        return Math.min(Math.max(Math.abs(offsetX) / (element.offsetWidth / 1.7), Math.abs(offsetY) / (element.offsetHeight / 2)), 1);
+      throwOutConfidence: (offsetX: number, offsetY: number, targetElement: HTMLElement) => {
+        // you would put ur logic based on offset & targetelement to determine
+        // what is your throwout confidence
+        const xConfidence = Math.min(Math.abs(offsetX) / targetElement.offsetWidth, 1);
+        const yConfidence = Math.min(Math.abs(offsetY) / targetElement.offsetHeight, 1);
+
+        return Math.max(xConfidence, yConfidence);
       },
       transform: (element, x, y, r) => {
         this.onItemMove(element, x, y, r);
       },
       throwOutDistance: (d) => {
-        return 800;
-      }
+        return 400;
+      },
     }
+
   }
 
   ngAfterViewInit() {
@@ -48,9 +57,17 @@ export class DiscoverPage {
         event.target.style.background = '#ffffff';
       });
 
+      this.swingStack.throwout.subscribe((event: ThrowEvent) =>
+      {
+        this.cards.shift()
+        this.swingStack.cards.shift();
+        console.log("SwingStack: ", this.swingStack.cards.length);
+      });
+
       this.cards = [];
+      this.addNewCards();
       // this.cards = [{email: ''}];
-      setInterval(() => {this.addNewCards();}, 5000);
+      setInterval(() => {this.addNewCards();}, 15000);
   }
 
   addNewCards(){
@@ -61,26 +78,23 @@ export class DiscoverPage {
       { picture: 'https://cenaswiper.luethi.rocks/images/1675557316270604947.jpg'},
       { picture: 'https://cenaswiper.luethi.rocks/images/1675557671938068223.jpg'}
     ];
-    this.cards = this.cards.concat(result).reverse();
+    for (let val of result){    
+      this.cards.push({
+        picture: val.picture,
+        id:  Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 5)
+      })
+    }
     console.log(this.cards)
-    //for (let val of result) {
-      //console.log("pushing : "+JSON.stringify(val));
-      // this.cards=this.cards.reverse();
-      // if(this.cards.length>1){
-      //   console.log('popping cards');
-      //   let card2=this.cards.pop();
-      //   console.log('popped'+card2);
-      //   let card1=this.cards.pop();
-      //   console.log('popped'+card1);
-      // }
-      //this.cards.push(val);
-      //this.cards.push(val);
-    // }
+  }
+  
+  trackByCards(index: number, card: any) {
+    return card.id
   }
   
   // This method is called by hooking up the event
   // on the HTML element - see the template above
   onThrowOut(event: ThrowEvent) {
+    console.log('Target', event.target);
     console.log('Hook from the template', event.throwDirection);
   }
 
@@ -109,19 +123,19 @@ export class DiscoverPage {
 
   // Connected through HTML
   voteLike() {
-    let removedCard = this.swingStack.cards.pop().getCard();
+    let removedCard = this.swingStack.cards[0].getCard();
     removedCard.throwOut(1,0)
   }
 
   // Connected through HTML
   voteDislike(){ 
-    let removedCard = this.swingStack.cards.pop().getCard();
+    let removedCard = this.swingStack.cards[0].getCard();
     removedCard.throwOut(-1,0);
   }
 
   // Connected through HTML
   voteNofood(){
-    let removedCard = this.swingStack.cards.pop().getCard();
+    let removedCard = this.swingStack.cards[0].getCard();
     removedCard.throwOut(0,-1);
   }
 
