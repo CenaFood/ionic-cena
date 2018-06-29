@@ -1,11 +1,8 @@
-import { Headers } from '@angular/http';
-import { Headers } from '@angular/http';
-import { HttpHeaders } from '@angular/Http';
 import { Storage } from '@ionic/storage';
 import { Injectable } from '@angular/core';
-import {tokenNotExpired} from 'angular2-jwt';
-import {JwtHelper} from "angular2-jwt";
-import { Http, Headers, Response } from '@angular/http';
+import { tokenNotExpired } from 'angular2-jwt';
+import { JwtHelper } from "angular2-jwt";
+import { Http, Headers, Response, RequestOptions } from '@angular/http';
 
 
 /*
@@ -18,24 +15,33 @@ import { Http, Headers, Response } from '@angular/http';
 export class AuthProvider {
 
   private STORAGE: Storage;
-  private LOGIN_URL = "https://cenaswiper.luethi.rocks/auth/login";
-  private SIGNUP_URL = "https://cenaswiper.luethi.rocks/auth/register";
+  private HTTP: Http;
 
-  private contentHeader = new Headers({"Content-Type": "application/json"});
+  private LOGIN_URL = "https://cenaswiper.luethi.rocks/auth/login/";
+  private SIGNUP_URL = "https://cenaswiper.luethi.rocks/auth/register/";
+
+  private contentHeader;
   private jwtHelper = new JwtHelper();
-  private http: Http;
 
   public user:string;
   public error: string;
+  private token: string;
 
   constructor(public http: Http, public storage: Storage) {
-    this.http = http;
-    this.STORAGE = Storage;
+    this.HTTP = http;
+    this.STORAGE = storage;
+
+    this.contentHeader = new Headers();
+    //this.contentHeader.append('Access-Control-Allow-Origin' , '*');
+    //this.contentHeader.append('Access-Control-Allow-Methods', 'POST, GET, OPTIONS, PUT');
+    //this.contentHeader.append('Accept','application/json');
+    this.contentHeader.append('content-type','application/json');
+
     console.log('Hello AuthProvider Provider');
   }
 
   public authenticated(): boolean {
-    return tokenNotExpired('/_ionic/token');
+    return tokenNotExpired("Token", this.token);
   }
 
   public ready(){
@@ -48,19 +54,20 @@ export class AuthProvider {
   }
 
   public login(credentials) {
-    this.http.post(this.LOGIN_URL, JSON.stringify(credentials), { headers: this.contentHeader })
-      .map((res:Response) => res.json)
+    console.log(credentials);
+    this.HTTP.post(this.LOGIN_URL, JSON.stringify(credentials), {headers: this.contentHeader})
+      .map((res:Response) => res.json())
       .subscribe(
-        (data: any) => this.authSuccess(data.id_token),
-        err => this.error = err
+        (data: any) => this.authSuccess(data),
+        err => {this.error = err; console.log("Error", err);}
       );
   }
 
   public signup(credentials) {
-    this.http.post(this.SIGNUP_URL, JSON.stringify(credentials), { headers: this.contentHeader })
-      .map((res:Response) => res.json)
+    this.HTTP.post(this.SIGNUP_URL, JSON.stringify(credentials), { headers: this.contentHeader })
+      .map((res:Response) => res.text())
       .subscribe(
-        (data: any) => this.authSuccess(data.id_token),
+        (data: String) => this.authSuccess(data),
         err => this.error = err
       );
   }
@@ -71,9 +78,11 @@ export class AuthProvider {
   }
 
   public authSuccess(token) {
+    console.log(token);
     this.error = null;
     this.storage.set('token', token);
-    this.user = this.jwtHelper.decodeToken(token).username;
+    this.token = token;
+    this.user = this.jwtHelper.decodeToken(token).sub;
     this.storage.set('profile', this.user);
   }
   

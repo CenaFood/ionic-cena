@@ -25,8 +25,8 @@
 
   <form #signForm="ngForm" (ngSubmit)="authenticate(signForm.value)">
     <ion-item>
-      <ion-label>Username</ion-label>
-      <ion-input type="text" name="username" ngModel></ion-input>
+      <ion-label>Email</ion-label>
+      <ion-input type="text" name="email" ngModel></ion-input>
     </ion-item>
 
     <ion-item>
@@ -43,6 +43,6 @@
 <ion-content *ngIf="auth.authenticated()">
   <h1>Welcome, {{ auth.user }}</h1>
   <div padding>
-    <button block (click)="auth.logout()">Log Out</button>
+    <button ion-button block (click)="auth.logout()">Log Out</button>
   </div>
 </ion-content>
