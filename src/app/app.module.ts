@@ -19,6 +19,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 //----------------------Extensions--------------------------------
 import { HttpModule } from '@angular/http';
 import { SwingModule } from 'angular2-swing';
+import { AuthProvider } from '../providers/auth/auth';
 
 @NgModule({
   declarations: [
@@ -47,7 +48,8 @@ import { SwingModule } from 'angular2-swing';
   providers: [
     StatusBar,
     SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    AuthProvider
   ]
 })
 export class AppModule {}
