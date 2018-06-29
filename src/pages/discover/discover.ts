@@ -34,18 +34,19 @@ export class DiscoverPage {
       ],
       // Now need to send offsetX and offsetY with element instead of just offset
       throwOutConfidence: (offsetX: number, offsetY: number, targetElement: HTMLElement) => {
-        // you would put ur logic based on offset & targetelement to determine
-        // what is your throwout confidence
-        const xConfidence = Math.min(Math.abs(offsetX) / targetElement.offsetWidth, 1);
-        const yConfidence = Math.min(Math.abs(offsetY) / targetElement.offsetHeight, 1);
-
-        return Math.max(xConfidence, yConfidence);
+        let xSensitivity = 3;
+        let ySensitivity = 3;
+        return Math.min(
+          Math.max(
+            Math.abs(offsetX) / (targetElement.offsetWidth / xSensitivity), 
+            Math.abs(offsetY) / (targetElement.offsetHeight / ySensitivity)
+          ), 1);
       },
       transform: (element, x, y, r) => {
         this.onItemMove(element, x, y, r);
       },
       throwOutDistance: (d) => {
-        return 400;
+        return 900;
       },
     }
 
@@ -67,8 +68,7 @@ export class DiscoverPage {
       this.cards = [];
       this.addNewCards();
       // this.cards = [{email: ''}];
-      setInterval(() => {this.addNewCards();}, 15000);
-  }
+      }
 
   addNewCards(){
     let result = [
