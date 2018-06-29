@@ -1,9 +1,11 @@
+import { Headers } from '@angular/http';
+import { Headers } from '@angular/http';
+import { HttpHeaders } from '@angular/Http';
 import { Storage } from '@ionic/storage';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {tokenNotExpired} from 'angular2-jwt';
 import {JwtHelper} from "angular2-jwt";
-import { Response } from '@angular/http';
+import { Http, Headers, Response } from '@angular/http';
 
 
 /*
@@ -19,18 +21,20 @@ export class AuthProvider {
   private LOGIN_URL = "https://cenaswiper.luethi.rocks/auth/login";
   private SIGNUP_URL = "https://cenaswiper.luethi.rocks/auth/register";
 
-  private contentHeader = new HttpHeaders({"Content-Type": "application/json"});
+  private contentHeader = new Headers({"Content-Type": "application/json"});
   private jwtHelper = new JwtHelper();
+  private http: Http;
 
   public user:string;
-  public error: String;
+  public error: string;
 
-
-  constructor(public http: HttpClient,private storage: Storage,) {
+  constructor(public http: Http, public storage: Storage) {
+    this.http = http;
+    this.STORAGE = Storage;
     console.log('Hello AuthProvider Provider');
   }
 
-  public static authenticated(): boolean {
+  public authenticated(): boolean {
     return tokenNotExpired('/_ionic/token');
   }
 

@@ -1,3 +1,4 @@
+import { WelcomePage } from './../welcome/welcome';
 import { Component } from '@angular/core';
 
 import { AboutPage } from '../about/about';
@@ -11,7 +12,7 @@ export class TabsPage {
 
   tab1Root = DiscoverPage;
   tab2Root = RewardsPage;
-  tab3Root = AboutPage;
+  tab3Root = WelcomePage;
 
   constructor() {
 

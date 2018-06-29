@@ -1,6 +1,5 @@
 import { AuthProvider } from './../../providers/auth/auth';
 import {Component} from "@angular/core";
-import {Http} from "@angular/http";
 import 'rxjs/add/operator/map';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
@@ -23,7 +22,7 @@ export class WelcomePage {
   authType: string = "login";
 
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private http: Http, private storage: Storage, private authProvider: AuthProvider) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private authProvider: AuthProvider) {
     this.auth = authProvider;
   }
 

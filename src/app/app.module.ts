@@ -20,6 +20,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { HttpModule } from '@angular/http';
 import { SwingModule } from 'angular2-swing';
 import { AuthProvider } from '../providers/auth/auth';
+import { IonicStorageModule } from '@ionic/storage';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { AuthProvider } from '../providers/auth/auth';
     BrowserModule,
     HttpModule,
     SwingModule,
-    IonicModule.forRoot(MyApp)
+    IonicModule.forRoot(MyApp),
+    IonicStorageModule.forRoot()
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -43,6 +45,7 @@ import { AuthProvider } from '../providers/auth/auth';
     AboutPage,
     DiscoverPage,
     RewardsPage,
+    WelcomePage,
     TabsPage
   ],
   providers: [
