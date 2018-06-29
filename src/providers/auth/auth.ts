@@ -74,6 +74,8 @@ export class AuthProvider {
 
   public logout() {
     this.storage.remove('token');
+    this.token = null;
+    this.error = null;
     this.user = null;
   }
 
