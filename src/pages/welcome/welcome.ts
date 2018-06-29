@@ -1,8 +1,8 @@
+import { AuthProvider } from './../../providers/auth/auth';
 import {Component} from "@angular/core";
 import {Headers, Http} from "@angular/http";
 import {JwtHelper} from "angular2-jwt";
 import {Storage} from "@ionic/storage";
-import {AuthService} from "../../app/services/auth/auth";
 import 'rxjs/add/operator/map';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
@@ -19,10 +19,10 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
   templateUrl: 'welcome.html',
 })
 export class WelcomePage {
-  private LOGIN_URL = "http://localhost:3001/sessions/create";
-  private SIGNUP_URL = "http://localhost:3001/users";
+  private LOGIN_URL = "https://cenaswiper.luethi.rocks/auth/login";
+  private SIGNUP_URL = "https://cenaswiper.luethi.rocks/auth/register";
 
-  auth: AuthService;
+  auth: AuthProvider;
 
   // When the page loads, we want the Login segment to be selected
   authType: string = "login";
@@ -33,8 +33,8 @@ export class WelcomePage {
   jwtHelper = new JwtHelper();
   user: string;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private http: Http, private storage: Storage) {
-    this.auth = AuthService;
+  constructor(public navCtrl: NavController, public navParams: NavParams, private http: Http, private storage: Storage, private authProvider: AuthProvider) {
+    this.auth = authProvider;
 
     storage.ready().then(() => {
       storage.get('profile').then(profile => {
@@ -81,6 +81,4 @@ export class WelcomePage {
     this.user = this.jwtHelper.decodeToken(token).username;
     this.storage.set('profile', this.user);
   }
-}
-
 }
