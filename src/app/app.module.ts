@@ -21,6 +21,7 @@ import { HttpModule } from '@angular/http';
 import { SwingModule } from 'angular2-swing';
 import { AuthProvider } from '../providers/auth/auth';
 import { IonicStorageModule } from '@ionic/storage';
+import { ApiProvider } from '../providers/api/api';
 
 @NgModule({
   declarations: [
@@ -52,7 +53,8 @@ import { IonicStorageModule } from '@ionic/storage';
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    AuthProvider
+    AuthProvider,
+    ApiProvider
   ]
 })
 export class AppModule {}
