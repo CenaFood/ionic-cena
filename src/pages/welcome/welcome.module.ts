@@ -1,3 +1,4 @@
+import { AuthProvider } from './../../providers/auth/auth';
 import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
 import { WelcomePage } from './welcome';
@@ -7,6 +8,7 @@ import { WelcomePage } from './welcome';
     WelcomePage,
   ],
   imports: [
+    AuthProvider,
     IonicPageModule.forChild(WelcomePage),
   ],
 })

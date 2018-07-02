@@ -19,6 +19,8 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 //----------------------Extensions--------------------------------
 import { HttpModule } from '@angular/http';
 import { SwingModule } from 'angular2-swing';
+import { AuthProvider } from '../providers/auth/auth';
+import { IonicStorageModule } from '@ionic/storage';
 
 @NgModule({
   declarations: [
@@ -34,7 +36,8 @@ import { SwingModule } from 'angular2-swing';
     BrowserModule,
     HttpModule,
     SwingModule,
-    IonicModule.forRoot(MyApp)
+    IonicModule.forRoot(MyApp),
+    IonicStorageModule.forRoot()
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -42,12 +45,14 @@ import { SwingModule } from 'angular2-swing';
     AboutPage,
     DiscoverPage,
     RewardsPage,
+    WelcomePage,
     TabsPage
   ],
   providers: [
     StatusBar,
     SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    AuthProvider
   ]
 })
 export class AppModule {}
