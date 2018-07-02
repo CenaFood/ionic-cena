@@ -72,6 +72,10 @@ export class AuthProvider {
       );
   }
 
+  public addAuthorizeHeader(headers: Headers){
+    headers.append("authorization", `Bearer ${this.token}`);
+  }
+
   public logout() {
     this.storage.remove('token');
     this.token = null;
@@ -87,5 +91,7 @@ export class AuthProvider {
     this.user = this.jwtHelper.decodeToken(token).sub;
     this.storage.set('profile', this.user);
   }
+
+
   
 }
