@@ -18,7 +18,7 @@ export class AuthProvider {
   private LOGIN_URL = "https://cenaswiper.luethi.rocks/auth/login/";
   private SIGNUP_URL = "https://cenaswiper.luethi.rocks/auth/register/";
 
-  private contentHeader;
+  private contentHeader: HttpHeaders;
   private jwtHelper = new JwtHelper();
 
   public user:string;
@@ -26,8 +26,10 @@ export class AuthProvider {
   private token: string;
 
   constructor(public http: HttpClient, public storage: Storage) {
-    this.contentHeader = new HttpHeaders();
-    this.contentHeader.append('content-type','application/json');
+    this.contentHeader = new HttpHeaders(
+      {
+        'Content-Type':  'application/json',
+      }); 
     console.log('Hello AuthProvider Provider');
   }
 
@@ -47,7 +49,6 @@ export class AuthProvider {
   public login(credentials) {
     console.log(credentials);
     this.http.post(this.LOGIN_URL, JSON.stringify(credentials), {headers: this.contentHeader})
-      .map((res:Response) => res.json())
       .subscribe(
         (data: any) => this.authSuccess(data),
         err => {this.error = err; console.log("Error", err);}
@@ -56,9 +57,8 @@ export class AuthProvider {
 
   public signup(credentials) {
     this.http.post(this.SIGNUP_URL, JSON.stringify(credentials), { headers: this.contentHeader })
-      .map((res:Response) => res.text())
       .subscribe(
-        (data: any) => this.authSuccess(String(data)),
+        (data: any) => this.authSuccess(data),
       err => {this.error = err; console.log("Error", err);}
       );
   }
@@ -66,10 +66,10 @@ export class AuthProvider {
   public addAuthorizeHeader(headers: HttpHeaders){
     let authHeaderValue = `Bearer ${this.token}`;
 
-    if(!(headers.get("authorization") == authHeaderValue) && this.token != null){
-      headers.append("authorization", `Bearer ${this.token}`);
-    }  
-
+    if(this.token != null){
+       return headers.set('Authorization', authHeaderValue);
+     }
+    return headers;
   }
 
   public logout() {
@@ -80,7 +80,6 @@ export class AuthProvider {
   }
 
   public authSuccess(token) {
-    console.log(token);
     this.error = null;
     this.storage.set('token', token);
     this.token = token;

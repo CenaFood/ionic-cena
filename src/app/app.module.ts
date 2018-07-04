@@ -17,11 +17,12 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
 //----------------------Extensions--------------------------------
-import { HttpModule } from '@angular/http';
+
 import { SwingModule } from 'angular2-swing';
 import { AuthProvider } from '../providers/auth/auth';
 import { IonicStorageModule } from '@ionic/storage';
 import { ApiProvider } from '../providers/api/api';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,7 @@ import { ApiProvider } from '../providers/api/api';
   ],
   imports: [
     BrowserModule,
-    HttpModule,
+    HttpClientModule,
     SwingModule,
     IonicModule.forRoot(MyApp),
     IonicStorageModule.forRoot()

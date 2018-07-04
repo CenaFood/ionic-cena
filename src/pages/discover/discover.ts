@@ -1,6 +1,6 @@
 import { Component, ViewChild, ViewChildren, QueryList } from '@angular/core';
-import { NavController } from 'ionic-angular';
-import { Http } from '@angular/http';
+import { ApiProvider } from '../../providers/api/api';
+
 import {
   Direction,
   StackConfig,
@@ -21,10 +21,10 @@ export class DiscoverPage {
   @ViewChild('myswing1') swingStack: SwingStackComponent;
   @ViewChildren('mycards1') swingCards: QueryList<SwingCardComponent>;
 
-  cards: Array<any>;
+  cards: Array<Challenge>;
   stackConfig: StackConfig;
 
-  constructor(private http: Http) {
+  constructor(private api: ApiProvider) {
     this.stackConfig = {
       // Default setting only allows UP, LEFT and RIGHT so you can override this as below
       allowedDirections: [
@@ -49,7 +49,6 @@ export class DiscoverPage {
         return 900;
       },
     }
-
   }
 
   ngAfterViewInit() {
@@ -67,28 +66,20 @@ export class DiscoverPage {
 
       this.cards = [];
       this.addNewCards();
-      // this.cards = [{email: ''}];
-      }
-
+  }
+    
   addNewCards(){
-    let result = [
-      { picture: 'https://cenaswiper.luethi.rocks/images/1675561536149857669.jpg'},
-      { picture: 'https://cenaswiper.luethi.rocks/images/1675263681855723195.jpg'},
-      { picture: 'https://cenaswiper.luethi.rocks/images/1675553610091278380.jpg'},
-      { picture: 'https://cenaswiper.luethi.rocks/images/1675557316270604947.jpg'},
-      { picture: 'https://cenaswiper.luethi.rocks/images/1675557671938068223.jpg'}
-    ];
-    for (let val of result){    
-      this.cards.push({
-        picture: val.picture,
-        id:  Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 5)
-      })
-    }
-    console.log(this.cards)
+    console.log("Adding new cards");
+    
+    this.api.ApiGet("/challenges")
+    .then((challenges: Challenge[]) => {
+      challenges.forEach(c => this.cards.push(c));
+    })
+    .catch(error => console.log(error))
   }
   
-  trackByCards(index: number, card: any) {
-    return card.id
+  trackByCards(index: number, card: Challenge) {
+    return card.id;
   }
   
   // This method is called by hooking up the event
