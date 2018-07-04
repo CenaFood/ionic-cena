@@ -34,15 +34,14 @@
       <ion-input type="password" name="password" ngModel></ion-input>
     </ion-item>
 
+    <ion-card color="danger" *ngIf="auth.error" >
+      <ion-card-content>
+       {{auth.error}}
+      </ion-card-content>
+    </ion-card>
+
     <div padding>
       <button ion-button block type="submit">Get Started!</button>
     </div>
   </form>
-</ion-content>
-
-<ion-content *ngIf="auth.authenticated()">
-  <h1>Welcome, {{ auth.user }}</h1>
-  <div padding>
-    <button ion-button block (click)="auth.logout()">Log Out</button>
-  </div>
 </ion-content>

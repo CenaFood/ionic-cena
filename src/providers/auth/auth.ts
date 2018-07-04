@@ -27,23 +27,40 @@ export class AuthProvider {
       }); 
   }
 
+  public ready(){
+    return Promise.all([
+      this.storage.get("user")
+        .then(val => this.user=val)
+        .catch(() => console.log("No user retrieved")),
+      this.storage.get("token")
+        .then(val => this.token=val)
+        .catch(() => console.log("No token retrieved"))
+    ]);
+  }
+
   public authenticated(): boolean {
     return tokenNotExpired("Token", this.token);
   }
 
-  public login(credentials) {
+  public login(credentials, success?: Function) {
     this.http.post(this.LOGIN_URL, JSON.stringify(credentials), {headers: this.contentHeader})
       .subscribe(
-        (data: any) => this.authSuccess(data, credentials),
-        err => {this.error = err; console.log("Error", err);}
+        (data: any) =>{
+          this.authSuccess(data, credentials);
+          if(success) success();
+        },
+        err => {this.error = "Login error"; console.log("Error", err);}
       );
   }
 
-  public signup(credentials) {
+  public signup(credentials, success?: Function) {
     this.http.post(this.SIGNUP_URL, JSON.stringify(credentials), { headers: this.contentHeader })
       .subscribe(
-        (data: any) => this.authSuccess(data, credentials),
-        err => {this.error = err; console.log("Error", err);}
+        (data: any) => {
+          this.authSuccess(data, credentials);
+          if(success) success();
+        },
+        err => {this.error = "Signup error"; console.log("Error", err);}
       );
   }
 
@@ -60,7 +77,7 @@ export class AuthProvider {
   public addAuthorizeHeader(headers: HttpHeaders){
     let authHeaderValue = `Bearer ${this.token}`;
 
-    if(!this.authenticated()){
+    if(this.token && !this.authenticated()){
       this.refreshToken();
     }else{
       return headers.set('Authorization', authHeaderValue);
