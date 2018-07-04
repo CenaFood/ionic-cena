@@ -5,12 +5,6 @@ import { tokenNotExpired } from 'angular2-jwt';
 import { JwtHelper } from "angular2-jwt";
 
 
-/*
-  Generated class for the AuthProvider provider.
-
-  See https://angular.io/guide/dependency-injection for more info on providers
-  and Angular DI.
-*/
 @Injectable()
 export class AuthProvider {
 
@@ -25,32 +19,22 @@ export class AuthProvider {
   public error: string;
   private token: string;
 
+
   constructor(public http: HttpClient, public storage: Storage) {
     this.contentHeader = new HttpHeaders(
       {
         'Content-Type':  'application/json',
       }); 
-    console.log('Hello AuthProvider Provider');
   }
 
   public authenticated(): boolean {
     return tokenNotExpired("Token", this.token);
   }
 
-  public ready(){
-    return this.storage.ready;
-  }
-
-  public async getProfile(){
-    let profile = await this.storage.get('Profile');
-    return JSON.parse(profile);
-  }
-
   public login(credentials) {
-    console.log(credentials);
     this.http.post(this.LOGIN_URL, JSON.stringify(credentials), {headers: this.contentHeader})
       .subscribe(
-        (data: any) => this.authSuccess(data),
+        (data: any) => this.authSuccess(data, credentials),
         err => {this.error = err; console.log("Error", err);}
       );
   }
@@ -58,32 +42,51 @@ export class AuthProvider {
   public signup(credentials) {
     this.http.post(this.SIGNUP_URL, JSON.stringify(credentials), { headers: this.contentHeader })
       .subscribe(
-        (data: any) => this.authSuccess(data),
-      err => {this.error = err; console.log("Error", err);}
+        (data: any) => this.authSuccess(data, credentials),
+        err => {this.error = err; console.log("Error", err);}
       );
+  }
+
+  private refreshToken(){
+    let user;
+    let password;
+    Promise.all([
+        this.storage.get("user").then(val => user=val),
+        this.storage.get("password").then(val => password=val)
+      ])
+      .then(() => this.login({user,password}));
   }
 
   public addAuthorizeHeader(headers: HttpHeaders){
     let authHeaderValue = `Bearer ${this.token}`;
 
-    if(this.token != null){
-       return headers.set('Authorization', authHeaderValue);
-     }
+    if(!this.authenticated()){
+      this.refreshToken();
+    }else{
+      return headers.set('Authorization', authHeaderValue);
+    }
     return headers;
   }
 
   public logout() {
     this.storage.remove('token');
+    this.storage.remove('user');
+    this.storage.remove('password');
     this.token = null;
     this.error = null;
     this.user = null;
   }
 
-  public authSuccess(token) {
+  public authSuccess(token, credentials) {
     this.error = null;
-    this.storage.set('token', token);
+
     this.token = token;
+    this.storage.set('token', token);
+
     this.user = this.jwtHelper.decodeToken(token).sub;
-    this.storage.set('profile', this.user);
+    this.storage.set('user', this.user);
+
+    //Bad practice, implement jwt refresh on API side
+    this.storage.set('password', credentials.password)
   }  
 }
