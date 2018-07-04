@@ -24,6 +24,10 @@ export class ApiProvider {
     console.log('Hello ApiProvider Generated');
   }
 
+  public authReady(){
+    return this.auth.ready();
+  }
+
   public ApiGet(route: string){
     let headers = this.auth.addAuthorizeHeader(this.contentHeader);
     let getUrl = new URL(route,this.API_URL)

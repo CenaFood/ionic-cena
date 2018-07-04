@@ -52,20 +52,25 @@ export class DiscoverPage {
   }
 
   ngAfterViewInit() {
-      // Either subscribe in controller or set in HTML
-      this.swingStack.throwin.subscribe((event: DragEvent) => {
-        event.target.style.background = '#ffffff';
-      });
+    this.cards = [];
+    // Either subscribe in controller or set in HTML
+    this.swingStack.throwin.subscribe((event: DragEvent) => {
+      event.target.style.background = '#ffffff';
+    });
 
-      this.swingStack.throwout.subscribe((event: ThrowEvent) =>
-      {
-        this.cards.shift()
-        this.swingStack.cards.shift();
-        console.log("SwingStack: ", this.swingStack.cards.length);
-      });
+    this.swingStack.throwout.subscribe((event: ThrowEvent) =>
+    {
+      this.cards.shift()
+      this.swingStack.cards.shift();
+      if(this.cards.length < 15){
+        this.addNewCards();
+      }
+      console.log("SwingStack: ", this.swingStack.cards.length);
+    });
 
-      this.cards = [];
-      this.addNewCards();
+    this.api.authReady().then(
+      () => this.addNewCards()
+    );
   }
     
   addNewCards(){

@@ -18,7 +18,7 @@ export class TabsPage {
   tab3Root = AboutPage;
 
   constructor(private navCtrl: NavController, private auth:AuthProvider, private storage: Storage) {
-    this.storage.ready().then(() => storage.clear());
+    //this.storage.ready().then(() => storage.clear()); //TODO: Remove for release version.
 
     this.auth.ready().then(()=>{
       if(!this.auth.authenticated()){
