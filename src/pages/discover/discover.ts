@@ -117,19 +117,16 @@ export class DiscoverPage {
     element.style['transform'] = `translate3d(0, 0, 0) translate(${x}px, ${y}px) rotate(${r}deg)`;
   }
 
-  // Connected through HTML
   voteLike() {
     let removedCard = this.swingStack.cards[0].getCard();
     removedCard.throwOut(1,0)
   }
 
-  // Connected through HTML
   voteDislike(){ 
     let removedCard = this.swingStack.cards[0].getCard();
     removedCard.throwOut(-1,0);
   }
 
-  // Connected through HTML
   voteNofood(){
     let removedCard = this.swingStack.cards[0].getCard();
     removedCard.throwOut(0,-1);
