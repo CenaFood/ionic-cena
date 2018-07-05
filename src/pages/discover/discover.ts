@@ -11,6 +11,7 @@ import {
   SwingStackComponent,
   SwingCardComponent
 } from 'angular2-swing';
+import { AnnotationProvider } from '../../providers/annotation/annotation';
 
 @Component({
   selector: 'page-discover',
@@ -24,7 +25,7 @@ export class DiscoverPage {
   cards: Array<Challenge>;
   stackConfig: StackConfig;
 
-  constructor(private api: ApiProvider) {
+  constructor(private api: ApiProvider, private annotatations: AnnotationProvider) {
     this.stackConfig = {
       // Default setting only allows UP, LEFT and RIGHT so you can override this as below
       allowedDirections: [
@@ -60,15 +61,17 @@ export class DiscoverPage {
 
     this.swingStack.throwout.subscribe((event: ThrowEvent) =>
     {
-      this.cards.shift()
+      let challenge = this.cards.shift()
       this.swingStack.cards.shift();
       if(this.cards.length < 15){
         this.addNewCards();
       }
-      console.log("SwingStack: ", this.swingStack.cards.length);
+      this.makeAnnotation(challenge, event.throwDirection)
     });
 
-    this.api.authReady().then(
+    //Add cards when providers are ready
+    Promise.all([this.api.authReady(), this.annotatations.ready()])
+    .then(
       () => this.addNewCards()
     );
   }
@@ -86,13 +89,25 @@ export class DiscoverPage {
   trackByCards(index: number, card: Challenge) {
     return card.id;
   }
-  
-  // This method is called by hooking up the event
-  // on the HTML element - see the template above
-  onThrowOut(event: ThrowEvent) {
-    console.log('Target', event.target);
-    console.log('Hook from the template', event.throwDirection);
+
+  makeAnnotation(challenge: Challenge, direction: Direction){
+    let result: string;
+    switch (direction) {
+      case Direction.LEFT:
+        result = "No";
+        break;
+      case Direction.UP:
+        result = "No Food";
+        break;
+      case Direction.RIGHT:
+        result = "Yes";
+        break;
+    }
+    this.annotatations.postAnnotation(challenge.id,result)
+    .then(() => console.log("Made annotation"))
+    .catch(() => console.log("Annotation failed"));
   }
+  
 
   // Called whenever we drag an element
   onItemMove(element, x, y, r) {
