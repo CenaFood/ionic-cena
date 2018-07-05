@@ -23,6 +23,7 @@ import { AuthProvider } from '../providers/auth/auth';
 import { IonicStorageModule } from '@ionic/storage';
 import { ApiProvider } from '../providers/api/api';
 import { HttpClientModule } from '@angular/common/http';
+import { AnnotationProvider } from '../providers/annotation/annotation';
 
 @NgModule({
   declarations: [
@@ -55,7 +56,8 @@ import { HttpClientModule } from '@angular/common/http';
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     AuthProvider,
-    ApiProvider
+    ApiProvider,
+    AnnotationProvider
   ]
 })
 export class AppModule {}
