@@ -1,6 +1,6 @@
 import { Component, ViewChild, ViewChildren, QueryList } from '@angular/core';
-import { NavController } from 'ionic-angular';
-import { Http } from '@angular/http';
+import { ApiProvider } from '../../providers/api/api';
+
 import {
   Direction,
   StackConfig,
@@ -11,6 +11,7 @@ import {
   SwingStackComponent,
   SwingCardComponent
 } from 'angular2-swing';
+import { AnnotationProvider } from '../../providers/annotation/annotation';
 
 @Component({
   selector: 'page-discover',
@@ -21,10 +22,10 @@ export class DiscoverPage {
   @ViewChild('myswing1') swingStack: SwingStackComponent;
   @ViewChildren('mycards1') swingCards: QueryList<SwingCardComponent>;
 
-  cards: Array<any>;
+  cards: Array<Challenge>;
   stackConfig: StackConfig;
 
-  constructor(private http: Http) {
+  constructor(private api: ApiProvider, private annotatations: AnnotationProvider) {
     this.stackConfig = {
       // Default setting only allows UP, LEFT and RIGHT so you can override this as below
       allowedDirections: [
@@ -49,54 +50,64 @@ export class DiscoverPage {
         return 900;
       },
     }
-
   }
 
   ngAfterViewInit() {
-      // Either subscribe in controller or set in HTML
-      this.swingStack.throwin.subscribe((event: DragEvent) => {
-        event.target.style.background = '#ffffff';
-      });
+    this.cards = [];
+    // Either subscribe in controller or set in HTML
+    this.swingStack.throwin.subscribe((event: DragEvent) => {
+      event.target.style.background = '#ffffff';
+    });
 
-      this.swingStack.throwout.subscribe((event: ThrowEvent) =>
-      {
-        this.cards.shift()
-        this.swingStack.cards.shift();
-        console.log("SwingStack: ", this.swingStack.cards.length);
-      });
-
-      this.cards = [];
-      this.addNewCards();
-      // this.cards = [{email: ''}];
+    this.swingStack.throwout.subscribe((event: ThrowEvent) =>
+    {
+      let challenge = this.cards.shift()
+      this.swingStack.cards.shift();
+      if(this.cards.length < 15){
+        this.addNewCards();
       }
+      this.makeAnnotation(challenge, event.throwDirection)
+    });
 
+    //Add cards when providers are ready
+    Promise.all([this.api.authReady(), this.annotatations.ready()])
+    .then(
+      () => this.addNewCards()
+    );
+  }
+    
   addNewCards(){
-    let result = [
-      { picture: 'https://cenaswiper.luethi.rocks/images/1675561536149857669.jpg'},
-      { picture: 'https://cenaswiper.luethi.rocks/images/1675263681855723195.jpg'},
-      { picture: 'https://cenaswiper.luethi.rocks/images/1675553610091278380.jpg'},
-      { picture: 'https://cenaswiper.luethi.rocks/images/1675557316270604947.jpg'},
-      { picture: 'https://cenaswiper.luethi.rocks/images/1675557671938068223.jpg'}
-    ];
-    for (let val of result){    
-      this.cards.push({
-        picture: val.picture,
-        id:  Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 5)
-      })
+    console.log("Adding new cards");
+    
+    this.api.ApiGet("/challenges")
+    .then((challenges: Challenge[]) => {
+      challenges.forEach(c => this.cards.push(c));
+    })
+    .catch(error => console.log(error))
+  }
+  
+  trackByCards(index: number, card: Challenge) {
+    return card.id;
+  }
+
+  makeAnnotation(challenge: Challenge, direction: Direction){
+    let result: string;
+    switch (direction) {
+      case Direction.LEFT:
+        result = "No";
+        break;
+      case Direction.UP:
+        result = "No Food";
+        break;
+      case Direction.RIGHT:
+        result = "Yes";
+        break;
     }
-    console.log(this.cards)
+    this.annotatations.postAnnotation(challenge.id,result)
+    .then(() => console.log("Made annotation"))
+    .catch(() => console.log("Annotation failed"));
   }
   
-  trackByCards(index: number, card: any) {
-    return card.id
-  }
-  
-  // This method is called by hooking up the event
-  // on the HTML element - see the template above
-  onThrowOut(event: ThrowEvent) {
-    console.log('Target', event.target);
-    console.log('Hook from the template', event.throwDirection);
-  }
 
   // Called whenever we drag an element
   onItemMove(element, x, y, r) {
@@ -121,19 +132,16 @@ export class DiscoverPage {
     element.style['transform'] = `translate3d(0, 0, 0) translate(${x}px, ${y}px) rotate(${r}deg)`;
   }
 
-  // Connected through HTML
   voteLike() {
     let removedCard = this.swingStack.cards[0].getCard();
     removedCard.throwOut(1,0)
   }
 
-  // Connected through HTML
   voteDislike(){ 
     let removedCard = this.swingStack.cards[0].getCard();
     removedCard.throwOut(-1,0);
   }
 
-  // Connected through HTML
   voteNofood(){
     let removedCard = this.swingStack.cards[0].getCard();
     removedCard.throwOut(0,-1);

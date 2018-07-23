@@ -17,28 +17,33 @@ export class ApiProvider {
   private readonly API_URL = "https://cenaswiper.luethi.rocks/";
   
   constructor(public http: HttpClient, private auth: AuthProvider) {
-    this.contentHeader = new HttpHeaders();
-    this.contentHeader.append('Accept','application/json');
-    this.contentHeader.append('content-type','application/json');
+    this.contentHeader = new HttpHeaders(
+      {
+        'Content-Type':  'application/json',
+      }); 
     console.log('Hello ApiProvider Generated');
   }
 
-  private ApiGet(route: string){
-    this.auth.addAuthorizeHeader(this.contentHeader);
+  public authReady(){
+    return this.auth.ready();
+  }
+
+  public ApiGet(route: string){
+    let headers = this.auth.addAuthorizeHeader(this.contentHeader);
     let getUrl = new URL(route,this.API_URL)
     return this.http.get(
       getUrl.toString(), 
-      {headers: this.contentHeader})
+      {headers: headers})
       .toPromise();
   }
 
-  private ApiPost(route: string, payload: object){
-    this.auth.addAuthorizeHeader(this.contentHeader);
+  public ApiPost(route: string, payload: object){
+    let headers = this.auth.addAuthorizeHeader(this.contentHeader);
     let postUrl = new URL(route,this.API_URL);
     return this.http.post(
       postUrl.toString(), 
       payload,
-      {headers: this.contentHeader})
+      {headers: headers})
       .toPromise();
   }
 }
