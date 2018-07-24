@@ -25,6 +25,7 @@ import { ApiProvider } from '../providers/api/api';
 import { HttpClientModule } from '@angular/common/http';
 import { AnnotationProvider } from '../providers/annotation/annotation';
 import { Geolocation } from '@ionic-native/geolocation';
+import { NgProgressModule } from 'ngx-progressbar';
 
 @NgModule({
   declarations: [
@@ -40,6 +41,7 @@ import { Geolocation } from '@ionic-native/geolocation';
     BrowserModule,
     HttpClientModule,
     SwingModule,
+    NgProgressModule,
     IonicModule.forRoot(MyApp),
     IonicStorageModule.forRoot()
   ],
