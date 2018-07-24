@@ -5,14 +5,24 @@
   Ionic pages and navigation.
 -->
 <ion-header>
-
   <ion-navbar color="primary">
     <ion-title>Rewards</ion-title>
   </ion-navbar>
-
 </ion-header>
 
 
 <ion-content padding>
-
+  <ion-card>
+    <img src="assets/imgs/Food.png">
+    <div class="card-logo">
+      <ion-icon name="ribbon"></ion-icon>
+    </div>
+    <ion-card-content>
+      <ng-progress [color]="'red'" [speed]="0" [showSpinner]="true" [ease]="'easeOutBounce'"></ng-progress>
+      <ion-card-title>
+        Rewards
+      </ion-card-title>
+      <p>Currently we are working on a reward system. Your swipes will be taken in to account when rewards are available.</p>
+    </ion-card-content>
+  </ion-card>
 </ion-content>

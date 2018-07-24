@@ -1,3 +1,16 @@
 page-rewards {
+    ion-card {
+        position: relative;
+      }
+    
+      .card-logo {
+        position: absolute;
+        text-align: center;
+        top: 10%;
+        font-size: 8.0em;
+        width: 100%;
+        font-weight: bold;
+        color: #fff;
+      }
 
 }
