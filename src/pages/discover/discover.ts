@@ -70,7 +70,7 @@ export class DiscoverPage {
     });
 
     //Add cards when providers are ready
-    Promise.all([this.api.authReady(), this.annotatations.ready()])
+    Promise.all([this.api.authReady()]) //TODO: , this.annotatations.ready()
     .then(
       () => this.addNewCards()
     );
