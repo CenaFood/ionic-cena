@@ -14,7 +14,7 @@ export class AnnotationProvider {
 
   geoopitons: GeolocationOptions = {
     enableHighAccuracy: false,
-    maximumAge: 1800000  // 30 minutes
+    maximumAge: 300000  // 5 minutes
   }
 
   constructor(private geolocation: Geolocation, private api: ApiProvider, ) {
