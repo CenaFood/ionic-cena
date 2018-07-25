@@ -4,8 +4,6 @@ import { ApiProvider } from '../../providers/api/api';
 import {
   Direction,
   StackConfig,
-  Stack,
-  Card,
   ThrowEvent,
   DragEvent,
   SwingStackComponent,

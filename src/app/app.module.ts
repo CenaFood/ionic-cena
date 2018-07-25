@@ -7,7 +7,6 @@ import { MyApp } from './app.component';
 //----------------------Pages--------------------------------
 import { AboutPage } from '../pages/about/about';
 import { TabsPage } from '../pages/tabs/tabs';
-import { TutorialPage } from './../pages/tutorial/tutorial';
 import { WelcomePage } from './../pages/welcome/welcome';
 import { RewardsPage } from './../pages/rewards/rewards';
 import { DiscoverPage } from './../pages/discover/discover';
@@ -34,8 +33,6 @@ import { NgProgressModule } from 'ngx-progressbar';
     DiscoverPage,
     RewardsPage,
     TabsPage,
-    WelcomePage,
-    TutorialPage    
   ],
   imports: [
     BrowserModule,

@@ -1,4 +1,3 @@
-import { Storage } from '@ionic/storage';
 import { NavController } from 'ionic-angular';
 import { WelcomePage } from './../welcome/welcome';
 import { Component } from '@angular/core';
@@ -17,8 +16,7 @@ export class TabsPage {
   tab2Root = RewardsPage;
   tab3Root = AboutPage;
 
-  constructor(private navCtrl: NavController, private auth:AuthProvider, private storage: Storage) {
-    //this.storage.ready().then(() => storage.clear()); //TODO: Remove for release version.
+  constructor(private navCtrl: NavController, private auth:AuthProvider) {
 
     this.auth.ready().then(()=>{
       if(!this.auth.authenticated()){
