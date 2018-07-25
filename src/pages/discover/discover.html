@@ -12,6 +12,7 @@
 
 
 <ion-content>
+  <ion-spinner *ngIf="cards?.length == 0"></ion-spinner>
   <ion-grid>
       <div id="viewport">
         <div class="stack" swing-stack [stackConfig]="stackConfig" #myswing1>
@@ -22,7 +23,7 @@
           </ion-card>
         </div>
       </div>
-    <ion-row *ngIf="cards?.length > 0" class="button-row">
+    <ion-row class="button-row" *ngIf="cards?.length > 0">
       <ion-col>
         <button ion-button outline color="dislike" (click)="voteDislike()">
           <ion-icon name="thumbs-down"></ion-icon>

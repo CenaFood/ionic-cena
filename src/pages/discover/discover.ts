@@ -69,6 +69,12 @@ export class DiscoverPage {
       this.makeAnnotation(challenge, event.throwDirection)
     });
 
+    setInterval(() => {
+      if(this.cards.length == 0){
+        this.addNewCards();
+      }
+    }, 7000);
+
     //Add cards when providers are ready
     Promise.all([this.api.authReady()]) //TODO: , this.annotatations.ready()
     .then(
