@@ -41,9 +41,6 @@ export class DiscoverPage {
             Math.abs(offsetY) / (targetElement.offsetHeight / ySensitivity)
           ), 1);
       },
-      transform: (element, x, y, r) => {
-        this.onItemMove(element, x, y, r);
-      },
       throwOutDistance: (d) => {
         return 900;
       },
@@ -66,6 +63,9 @@ export class DiscoverPage {
       }
       this.makeAnnotation(challenge, event.throwDirection)
     });
+
+    this.swingStack.dragmove.subscribe((event: DragEvent) => this.colorOverlay(event.target,event.throwDirection,event.throwOutConfidence));
+    this.swingStack.dragend.subscribe((event: DragEvent) => this.resetOverlay(event.target));
 
     setInterval(() => {
       if(this.cards.length == 0){
@@ -111,29 +111,41 @@ export class DiscoverPage {
     .then(() => console.log("Made annotation"))
     .catch(() => console.log("Annotation failed"));
   }
-  
 
-  // Called whenever we drag an element
-  onItemMove(element, x, y, r) {
-    var color = '';
-    var abs = Math.abs(x);
-    let min = Math.trunc(Math.min(16 * 16 - abs, 16 * 16));
-    let hexCode = this.decimalToHex(min, 2);
+  colorOverlay(target: HTMLElement, direction: Direction, throwOutConfidence: number) {
+    let color: string;
+    let overlay: HTMLElement;
 
-    if ( y < 0) {
-      // Card swipe up
-      color = '#ebebeb';
-    } else if (x < 0) {
-      // Card swipe lef
-      color = '#FF' + hexCode + hexCode;
-    } else {
-      // Card swipe right
-      color = '#' + hexCode + 'FF' + hexCode;
+    if (direction == Direction.INVALID) {
+      this.resetOverlay(target);
+      return;
     }
 
+    //this is the overlay div
+    overlay = target.children[1] as HTMLElement;
 
-    element.style.background = color;
-    element.style['transform'] = `translate3d(0, 0, 0) translate(${x}px, ${y}px) rotate(${r}deg)`;
+    switch (direction) {
+      case Direction.LEFT:
+        color = "#E61515";
+        break;
+      case Direction.UP:
+        color = "#39C4E7";
+        break;
+      case Direction.RIGHT:
+        color = "#1DC51D";
+        break;
+    }
+
+    overlay.style.backgroundColor = color;
+    overlay.style.opacity = Math.min(throwOutConfidence * 2, 0.7).toString();
+  }
+
+  resetOverlay(target: HTMLElement){
+    let overlay: HTMLElement;
+    //this is the overlay div
+    overlay = target.children[1] as HTMLElement;
+    overlay.style.backgroundColor = '#FFFFFF';
+    overlay.style.opacity = '0';
   }
 
   voteLike() {
@@ -149,18 +161,6 @@ export class DiscoverPage {
   voteNofood(){
     let removedCard = this.swingStack.cards[0].getCard();
     removedCard.throwOut(0,-1);
-  }
-
-  // http://stackoverflow.com/questions/57803/how-to-convert-decimal-to-hex-in-javascript
-  decimalToHex(d, padding) {
-    var hex = Number(d).toString(16);
-    padding = typeof (padding) === "undefined" || padding === null ? padding = 2 : padding;
-
-    while (hex.length < padding) {
-      hex = "0" + hex;
-    }
-
-    return hex;
   }
 
 }
