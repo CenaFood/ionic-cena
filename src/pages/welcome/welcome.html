@@ -13,8 +13,8 @@
 </ion-header>
 
 
-<ion-content class="login" *ngIf="!auth.authenticated()">
-  <ion-segment [(ngModel)]="authType" color="primary">
+<ion-content class="login content" *ngIf="!auth.authenticated()">
+  <ion-segment [(ngModel)]="authType" color="light">
     <ion-segment-button value="login">
       Log In
     </ion-segment-button>

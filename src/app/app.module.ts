@@ -1,4 +1,3 @@
-import { TutorialPage } from './../pages/tutorial/tutorial';
 //----------------------Base--------------------------------
 
 import { NgModule, ErrorHandler } from '@angular/core';
@@ -34,8 +33,7 @@ import { NgProgressModule } from 'ngx-progressbar';
     DiscoverPage,
     RewardsPage,
     TabsPage,
-    WelcomePage,
-    TutorialPage
+    WelcomePage
   ],
   imports: [
     BrowserModule,
