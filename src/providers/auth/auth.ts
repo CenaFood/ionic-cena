@@ -9,8 +9,8 @@ import { JwtHelper } from "angular2-jwt";
 export class AuthProvider {
 
 
-  private LOGIN_URL = "https://cenaswiper.luethi.rocks/auth/login/";
-  private SIGNUP_URL = "https://cenaswiper.luethi.rocks/auth/register/";
+  private LOGIN_URL = "http://localhost:8100/auth/login/";
+  private SIGNUP_URL = "http://localhost:8100/auth/register/";
 
   private contentHeader: HttpHeaders;
   private jwtHelper = new JwtHelper();

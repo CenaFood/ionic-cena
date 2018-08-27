@@ -13,7 +13,7 @@ export class ApiProvider {
 
   contentHeader: HttpHeaders;
 
-  private readonly API_URL = "https://cenaswiper.luethi.rocks/";
+  private readonly API_URL = "http://localhost:8100/";
   
   constructor(public http: HttpClient, private auth: AuthProvider) {
     this.contentHeader = new HttpHeaders(
