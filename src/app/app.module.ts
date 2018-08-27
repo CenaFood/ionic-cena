@@ -7,7 +7,6 @@ import { MyApp } from './app.component';
 //----------------------Pages--------------------------------
 import { AboutPage } from '../pages/about/about';
 import { TabsPage } from '../pages/tabs/tabs';
-import { WelcomePage } from './../pages/welcome/welcome';
 import { RewardsPage } from './../pages/rewards/rewards';
 import { DiscoverPage } from './../pages/discover/discover';
 
@@ -45,11 +44,10 @@ import { NgProgressModule } from 'ngx-progressbar';
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    AboutPage,
+    TabsPage,
     DiscoverPage,
     RewardsPage,
-    WelcomePage,
-    TabsPage
+    AboutPage
   ],
   providers: [
     StatusBar,

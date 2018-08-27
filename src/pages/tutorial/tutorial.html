@@ -4,15 +4,42 @@
   See http://ionicframework.com/docs/components/#navigation for more info on
   Ionic pages and navigation.
 -->
-<ion-header>
-
-  <ion-navbar>
-    <ion-title>Tutorial</ion-title>
-  </ion-navbar>
-
-</ion-header>
 
 
 <ion-content padding>
+  <ion-slides pager paginationType='bullets'>
+    <ion-slide>
+      <img src="assets/imgs/icon.png">
+      <h2>Welcome to Cena Family</h2>
+      <p>We are Cenafood and we need Your help. my eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam
+        voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no se
+      </p>
+    </ion-slide>
 
+    <ion-slide>
+      <img src="assets/imgs/IllustrationLike.png" />
+      <h1>Mhmm</h1>
+      <p>If you like what you see and it is acually food. Swipe Right.</p>
+    </ion-slide>
+
+    <ion-slide>
+      <img src="assets/imgs/IllustrationDislike.png" />
+      <h1>Yuk!</h1>
+      <p>If you dislike what you see and it is acually food. Swipe Left.</p>
+    </ion-slide>
+
+    <ion-slide>
+      <ion-row>
+        <ion-col>
+          <img src="assets/imgs/IllustrationNoFood.png" />
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <h1>What?</h1>
+          <p>If you see something that is not food, something unidentifyable swipe up or down.</p>
+        </ion-col>
+      </ion-row>
+    </ion-slide>
+  </ion-slides>
 </ion-content>
