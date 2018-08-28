@@ -159,38 +159,5 @@
 
 
     </ion-slide>
-
-    <!-- <ion-slide>
-      <ion-segment [(ngModel)]="authType" color="primary">
-        <ion-segment-button value="login">
-          Log In
-        </ion-segment-button>
-        <ion-segment-button value="signup">
-          Sign Up
-        </ion-segment-button>
-      </ion-segment>
-
-      <form #signForm="ngForm" (ngSubmit)="authenticate(signForm.value)">
-        <ion-item>
-          <ion-label>Email</ion-label>
-          <ion-input type="text" name="email" ngModel></ion-input>
-        </ion-item>
-
-        <ion-item>
-          <ion-label>Password</ion-label>
-          <ion-input type="password" name="password" ngModel></ion-input>
-        </ion-item>
-
-        <ion-card color="danger" *ngIf="auth.error">
-          <ion-card-content>
-            {{auth.error}}
-          </ion-card-content>
-        </ion-card>
-
-        <div padding>
-          <button ion-button block type="submit">Get Started!</button>
-        </div>
-      </form>
-    </ion-slide> -->
   </ion-slides>
 </ion-content>
