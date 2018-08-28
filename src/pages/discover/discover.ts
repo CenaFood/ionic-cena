@@ -28,6 +28,7 @@ export class DiscoverPage {
       // Default setting only allows UP, LEFT and RIGHT so you can override this as below
       allowedDirections: [
         Direction.UP,
+        Direction.DOWN,
         Direction.LEFT, 
         Direction.RIGHT
       ],
@@ -101,6 +102,7 @@ export class DiscoverPage {
         result = "No";
         break;
       case Direction.UP:
+      case Direction.DOWN:
         result = "No Food";
         break;
       case Direction.RIGHT:
@@ -129,6 +131,7 @@ export class DiscoverPage {
         color = "#E61515";
         break;
       case Direction.UP:
+      case Direction.DOWN:
         color = "#39C4E7";
         break;
       case Direction.RIGHT:
