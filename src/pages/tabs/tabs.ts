@@ -5,7 +5,6 @@ import { Component } from '@angular/core';
 import { AboutPage } from '../about/about';
 import { DiscoverPage } from './../discover/discover';
 import { AuthProvider } from '../../providers/auth/auth';
-import { Storage } from '@ionic/storage';
 
 @Component({
   templateUrl: 'tabs.html'

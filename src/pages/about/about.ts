@@ -1,4 +1,3 @@
-import { WelcomePage } from './../welcome/welcome';
 import { Component } from '@angular/core';
 import { NavController, App } from 'ionic-angular';
 import { AuthProvider } from '../../providers/auth/auth';
@@ -15,6 +14,6 @@ export class AboutPage {
 
   private logout(){
     this.auth.logout();
-    this.app.getRootNav().setRoot(WelcomePage);
+    this.app.getRootNav().setRoot('WelcomePage');
   }
 }

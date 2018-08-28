@@ -16,65 +16,78 @@
 <ion-content>
   <ion-slides pager paginationType='bullets'>
     <ion-slide>
-      <img src="assets/imgs/icon.png">
-      <h2>Welcome to Cena Family</h2>
-      <p>We are Cenafood and we need Your help. my eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam
-        voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no se
-      </p>
+      <ion-row>
+        <ion-col>
+          <img src="assets/imgs/CenaAI.png">
+          <h2>Welcome to Cena Family</h2>
+          <p>We are Cenafood and we need Your help. my eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed
+            diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no se
+          </p>
+        </ion-col>
+      </ion-row>
     </ion-slide>
 
     <ion-slide>
-      <img src="assets/imgs/IllustrationLike.png" />
-      <h1>Mhmm</h1>
-      <p>If you like what you see and it is acually food. Swipe Right.</p>
+      <ion-row>
+        <ion-col>
+          <img src="assets/imgs/IllustrationLike.png" />
+          <h1>Mhmm</h1>
+          <p>If you like what you see and it is acually food. Swipe Right.</p>
+        </ion-col>
+      </ion-row>
     </ion-slide>
 
     <ion-slide>
-      <img src="assets/imgs/IllustrationDislike.png" />
-      <h1>Yuk!</h1>
-      <p>If you dislike what you see and it is acually food. Swipe Left.</p>
+      <ion-row>
+        <ion-col>
+          <img src="assets/imgs/IllustrationDislike.png" />
+          <h1>Yuk!</h1>
+          <p>If you dislike what you see and it is acually food. Swipe Left.</p>
+        </ion-col>
+      </ion-row>
     </ion-slide>
 
     <ion-slide>
-
-      <img src="assets/imgs/IllustrationNoFood.png" />
-
-      <h1>What?</h1>
-      <p>If you see something that is not food, something unidentifyable swipe up or down.</p>
-
+      <ion-row>
+        <ion-col>
+          <img src="assets/imgs/IllustrationNoFood.png" />
+          <h1>What?</h1>
+          <p>If you see something that is not food, something unidentifyable swipe up or down.</p>
+        </ion-col>
+      </ion-row>
     </ion-slide>
 
     <ion-slide>
-        <ion-segment [(ngModel)]="authType" color="primary">
-            <ion-segment-button value="login">
-              Log In
-            </ion-segment-button>
-            <ion-segment-button value="signup">
-              Sign Up
-            </ion-segment-button>
-          </ion-segment>
-        
-          <form #signForm="ngForm" (ngSubmit)="authenticate(signForm.value)">
-            <ion-item>
-              <ion-label>Email</ion-label>
-              <ion-input type="text" name="email" ngModel></ion-input>
-            </ion-item>
-        
-            <ion-item>
-              <ion-label>Password</ion-label>
-              <ion-input type="password" name="password" ngModel></ion-input>
-            </ion-item>
-        
-            <ion-card color="danger" *ngIf="auth.error">
-              <ion-card-content>
-                {{auth.error}}
-              </ion-card-content>
-            </ion-card>
-        
-            <div padding>
-              <button ion-button block type="submit">Get Started!</button>
-            </div>
-          </form>
+      <ion-segment [(ngModel)]="authType" color="primary">
+        <ion-segment-button value="login">
+          Log In
+        </ion-segment-button>
+        <ion-segment-button value="signup">
+          Sign Up
+        </ion-segment-button>
+      </ion-segment>
+
+      <form #signForm="ngForm" (ngSubmit)="authenticate(signForm.value)">
+        <ion-item>
+          <ion-label>Email</ion-label>
+          <ion-input type="text" name="email" ngModel></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>Password</ion-label>
+          <ion-input type="password" name="password" ngModel></ion-input>
+        </ion-item>
+
+        <ion-card color="danger" *ngIf="auth.error">
+          <ion-card-content>
+            {{auth.error}}
+          </ion-card-content>
+        </ion-card>
+
+        <div padding>
+          <button ion-button block type="submit">Get Started!</button>
+        </div>
+      </form>
     </ion-slide>
   </ion-slides>
 </ion-content>
