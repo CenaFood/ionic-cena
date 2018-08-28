@@ -14,7 +14,7 @@
 
 
 <ion-content>
-  <ion-slides pager paginationType='bullets'>
+  <ion-slides>
     <ion-slide>
       <ion-row>
         <ion-col>
@@ -23,6 +23,11 @@
           <p>We are Cenafood and we need Your help. my eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed
             diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no se
           </p>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <button ion-button block (click)='this.slides.slideNext()'>Cool</button>
         </ion-col>
       </ion-row>
     </ion-slide>
@@ -35,6 +40,11 @@
           <p>If you like what you see and it is acually food. Swipe Right.</p>
         </ion-col>
       </ion-row>
+      <ion-row>
+        <ion-col>
+          <button ion-button block (click)='this.slides.slideNext()'>Got it</button>
+        </ion-col>
+      </ion-row>
     </ion-slide>
 
     <ion-slide>
@@ -43,6 +53,11 @@
           <img src="assets/imgs/IllustrationDislike.png" />
           <h1>Yuk!</h1>
           <p>If you dislike what you see and it is acually food. Swipe Left.</p>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <button ion-button block (click)='this.slides.slideNext()'>Got it</button>
         </ion-col>
       </ion-row>
     </ion-slide>
@@ -55,9 +70,97 @@
           <p>If you see something that is not food, something unidentifyable swipe up or down.</p>
         </ion-col>
       </ion-row>
+      <ion-row>
+        <ion-col>
+          <button ion-button block (click)='this.slides.slideNext()'>Let's go!</button>
+        </ion-col>
+      </ion-row>
     </ion-slide>
 
-    <ion-slide>
+    <ion-slide id='login'>
+      <div [ngSwitch]="authType">
+        <div *ngSwitchCase="'login'">
+          <h1>
+            Login
+          </h1>
+          <form #signForm="ngForm" (ngSubmit)="authenticate(signForm.value)">
+            <ion-row>
+              <ion-col>
+                <ion-list>
+                  <ion-item>
+                    <ion-label color="primary" stacked>Email</ion-label>
+                    <ion-input type="email" placeholder="Email" name="email" ngModel></ion-input>
+                  </ion-item>
+                  <ion-item>
+                    <ion-label color="primary" stacked>Password</ion-label>
+                    <ion-input type="password" placeholder="Password" name="password" ngModel></ion-input>
+                  </ion-item>
+                </ion-list>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-card color="secondary" *ngIf="auth.error">
+                <ion-card-content>
+                  {{auth.error}}
+                </ion-card-content>
+              </ion-card>
+            </ion-row>
+            <ion-row>
+              <ion-col>
+                <button ion-button block type="submit">Start discovering!</button>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col>
+                <p>Not registered yet? <a (click)="setAuthType('signup')">Sign up here.</a> </p>
+              </ion-col>
+            </ion-row>
+          </form>
+        </div>
+        <div *ngSwitchCase="'signup'">
+          <h1>
+            Register
+          </h1>
+          <form #signForm="ngForm" (ngSubmit)="authenticate(signForm.value)">
+            <ion-row>
+              <ion-col>
+                <ion-list>
+                  <ion-item>
+                    <ion-label color="primary" stacked>Email</ion-label>
+                    <ion-input type="email" placeholder="Email" name="email" ngModel></ion-input>
+                  </ion-item>
+                  <ion-item>
+                    <ion-label color="primary" stacked>Password</ion-label>
+                    <ion-input type="password" placeholder="Password" name="password" ngModel></ion-input>
+                  </ion-item>
+                </ion-list>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-card color="secondary" *ngIf="auth.error">
+                <ion-card-content>
+                  {{auth.error}}
+                </ion-card-content>
+              </ion-card>
+              <ion-row>
+              </ion-row>
+              <ion-col>
+                <button ion-button block type="submit">Start discovering!</button>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col>
+                <p>Already have an Account? <a (click)="setAuthType('login')">Sign in</a> </p>
+              </ion-col>
+            </ion-row>
+          </form>
+        </div>
+      </div>
+
+
+    </ion-slide>
+
+    <!-- <ion-slide>
       <ion-segment [(ngModel)]="authType" color="primary">
         <ion-segment-button value="login">
           Log In
@@ -88,6 +191,6 @@
           <button ion-button block type="submit">Get Started!</button>
         </div>
       </form>
-    </ion-slide>
+    </ion-slide> -->
   </ion-slides>
 </ion-content>

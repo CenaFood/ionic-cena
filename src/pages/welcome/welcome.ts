@@ -19,7 +19,7 @@ import { Storage } from '@ionic/storage';
 })
 export class WelcomePage {
   // When the page loads, we want the Login segment to be selected
-  authType: string = "login";
+  authType: string = "signup";
 
   @ViewChild(Slides) slides: Slides;
 
@@ -46,4 +46,10 @@ export class WelcomePage {
   dismiss(){
     this.navCtrl.setRoot(TabsPage);
   }
+
+  setAuthType(type: string){
+    console.log("Type", type);
+    this.authType = type;
+  }
+
 }
