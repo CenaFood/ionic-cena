@@ -34,6 +34,7 @@ export class WelcomePage {
     this.storage.get('firstLaunch').then((tutorialShown) => {
       if (tutorialShown) {
         this.slides.slideTo(this.slides.length()-1);  
+        this.authType = "login"
       }
       this.storage.set('firstLaunch', true);
     })
@@ -48,7 +49,6 @@ export class WelcomePage {
   }
 
   setAuthType(type: string){
-    console.log("Type", type);
     this.authType = type;
   }
 
