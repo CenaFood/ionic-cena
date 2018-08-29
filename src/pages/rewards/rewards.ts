@@ -15,7 +15,7 @@ import { NavController, NavParams } from 'ionic-angular';
 })
 export class RewardsPage {
 
-  expected: number = 80000;
+  expected: number = 400;
   percentPersonal: number = 0;
   quote: string;
 
