@@ -13,12 +13,22 @@
 
 <ion-content padding>
   <ion-card>
+    <ion-card-header>
+      <ion-card-title>
+        Progress
+      </ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <circle-progress [percent]='percentPersonal' [subtitleFormat]='formatSubtitle'></circle-progress>
+      <p>We are Cenafood and we need <b>your</b> help. The Cena Swiper helps us to label food pictures. Our final goal is to create an artificial intelligence that can learn your taste and help us find the best plates served around you. Help us reach our ultimate goal by swiping some images. </p>
+    </ion-card-content>
+  </ion-card>
+  <ion-card>
     <img src="assets/imgs/Food.png">
     <div class="card-logo">
       <ion-icon name="ribbon"></ion-icon>
     </div>
     <ion-card-content>
-      <ng-progress [color]="'red'" [speed]="0" [showSpinner]="true" [ease]="'easeOutBounce'"></ng-progress>
       <ion-card-title>
         Rewards
       </ion-card-title>

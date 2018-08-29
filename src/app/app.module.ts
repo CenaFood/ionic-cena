@@ -23,7 +23,7 @@ import { ApiProvider } from '../providers/api/api';
 import { HttpClientModule } from '@angular/common/http';
 import { AnnotationProvider } from '../providers/annotation/annotation';
 import { Geolocation } from '@ionic-native/geolocation';
-import { NgProgressModule } from 'ngx-progressbar';
+import { NgCircleProgressModule } from 'ng-circle-progress';
 
 @NgModule({
   declarations: [
@@ -37,9 +37,24 @@ import { NgProgressModule } from 'ngx-progressbar';
     BrowserModule,
     HttpClientModule,
     SwingModule,
-    NgProgressModule,
     IonicModule.forRoot(MyApp),
-    IonicStorageModule.forRoot()
+    IonicStorageModule.forRoot(),
+    NgCircleProgressModule.forRoot({
+      radius : 80,
+      space : -10,
+      toFixed : 0,
+      maxPercent : 1000,
+      unitsFontSize : "18",
+      outerStrokeWidth : 10,
+      outerStrokeColor : "#8000ff",
+      innerStrokeColor : "#f4f4ef",
+      innerStrokeWidth : 10,
+      titleFontSize : "26",
+      subtitleColor : "#444444",
+      animationDuration : 300,
+      showBackground : false,
+      responsive : true
+    })
   ],
   bootstrap: [IonicApp],
   entryComponents: [
