@@ -7,67 +7,71 @@
 </ion-header>
 
 <ion-content padding>
-  <div *ngIf="auth.authenticated()">
-    <h3>Logged in as {{ auth.user }}</h3>
-    <button ion-button block (click)="logout()">Log Out</button>
-  </div>
-  <div>
-    <p>Cena aims to develop an automated and fake review proof food evaluation system.</p>
-    <p>
+  <ion-row>
+    <ion-col>
+      <div *ngIf="auth.authenticated()">
+        <h3>Logged in as {{ auth.user }}</h3>
+        <button ion-button block (click)="logout()">Log Out</button>
+      </div>
+      <div>
+        <p>Cena aims to develop an automated and fake review proof food evaluation system.</p>
+        <p>
 
-      The alogrithm works local and persionalized. We therefore analyse your location and personal preferences.
-    </p>
-    <p>
-      Please consult our
-      <a href="https://cenafood.review/privacy">Privacy Policy statement</a> and
-      <a href="https://cenafood.review/termsofuse">Terms of service</a>.
-    </p>
-  </div>
-  <div>
-    <h3>Thirdparty licences</h3>
-    <ion-list>
-      <a ion-item href="https://github.com/apache/cordova-android.git ">cordova-android
-        <p item-end>Apache-2.0</p>
-      </a>
-      <a ion-item href="https://github.com/apache/cordova-ios.git ">cordova-ios
-        <p item-end>Apache-2.0</p>
-      </a>
-      <a ion-item href="https://github.com/apache/cordova-plugin-device.git ">cordova-plugin-device
-        <p item-end>Apache-2.0</p>
-      </a>
-      <a ion-item href="https://github.com/apache/cordova-plugin-geolocation.git ">cordova-plugin-geolocation
-        <p item-end>Apache-2.0</p>
-      </a>
-      <a ion-item href="https://github.com/ionic-team/cordova-plugin-ionic-keyboard.git">cordova-plugin-ionic-keyboard
-        <p item-end>Apache 2.0</p>
-      </a>
-      <a ion-item href="https://github.com/ionic-team/cordova-plugin-ionic-webview.git ">cordova-plugin-ionic-webview
-        <p item-end>Apache-2.0</p>
-      </a>
-      <a ion-item href="https://github.com/apache/cordova-plugin-splashscreen.git ">cordova-plugin-splashscreen
-        <p item-end>Apache-2.0</p>
-      </a>
-      <a ion-item href="https://github.com/apache/cordova-plugin-whitelist.git ">cordova-plugin-whitelist
-        <p item-end>Apache-2.0</p>
-      </a>
-      <a ion-item href="https://github.com/litehelpers/Cordova-sqlite-storage.git ">cordova-sqlite-storage
-        <p item-end>MIT</p>
-      </a>
-      <a ion-item href="https://github.com/ionic-team/ionic.git ">ionic-angular
-        <p item-end>MIT</p>
-      </a>
-      <a ion-item href="https://github.com/driftyco/ionicons.git ">ionicons
-        <p item-end>MIT</p>
-      </a>
-      <a ion-item href="https://github.com/ReactiveX/RxJS.git ">rxjs
-        <p item-end>Apache-2.0</p>
-      </a>
-      <a ion-item href="https://github.com/GoogleChrome/sw-toolbox.git ">sw-toolbox
-        <p item-end>Apache-2.0</p>
-      </a>
-      <a ion-item href="https://github.com/angular/zone.js.git ">zone.js
-        <p item-end>MIT</p>
-      </a>
-    </ion-list>
-  </div>
+          The alogrithm works local and persionalized. We therefore analyse your location and personal preferences.
+        </p>
+      </div>
+    </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col>
+
+      <div>
+        <h3>Thirdparty licences</h3>
+        <ion-list>
+          <a ion-item href="https://github.com/apache/cordova-android.git ">cordova-android
+            <p item-end>Apache-2.0</p>
+          </a>
+          <a ion-item href="https://github.com/apache/cordova-ios.git ">cordova-ios
+            <p item-end>Apache-2.0</p>
+          </a>
+          <a ion-item href="https://github.com/apache/cordova-plugin-device.git ">cordova-plugin-device
+            <p item-end>Apache-2.0</p>
+          </a>
+          <a ion-item href="https://github.com/apache/cordova-plugin-geolocation.git ">cordova-plugin-geolocation
+            <p item-end>Apache-2.0</p>
+          </a>
+          <a ion-item href="https://github.com/ionic-team/cordova-plugin-ionic-keyboard.git">cordova-plugin-ionic-keyboard
+            <p item-end>Apache 2.0</p>
+          </a>
+          <a ion-item href="https://github.com/ionic-team/cordova-plugin-ionic-webview.git ">cordova-plugin-ionic-webview
+            <p item-end>Apache-2.0</p>
+          </a>
+          <a ion-item href="https://github.com/apache/cordova-plugin-splashscreen.git ">cordova-plugin-splashscreen
+            <p item-end>Apache-2.0</p>
+          </a>
+          <a ion-item href="https://github.com/apache/cordova-plugin-whitelist.git ">cordova-plugin-whitelist
+            <p item-end>Apache-2.0</p>
+          </a>
+          <a ion-item href="https://github.com/litehelpers/Cordova-sqlite-storage.git ">cordova-sqlite-storage
+            <p item-end>MIT</p>
+          </a>
+          <a ion-item href="https://github.com/ionic-team/ionic.git ">ionic-angular
+            <p item-end>MIT</p>
+          </a>
+          <a ion-item href="https://github.com/driftyco/ionicons.git ">ionicons
+            <p item-end>MIT</p>
+          </a>
+          <a ion-item href="https://github.com/ReactiveX/RxJS.git ">rxjs
+            <p item-end>Apache-2.0</p>
+          </a>
+          <a ion-item href="https://github.com/GoogleChrome/sw-toolbox.git ">sw-toolbox
+            <p item-end>Apache-2.0</p>
+          </a>
+          <a ion-item href="https://github.com/angular/zone.js.git ">zone.js
+            <p item-end>MIT</p>
+          </a>
+        </ion-list>
+      </div>
+    </ion-col>
+  </ion-row>
 </ion-content>
