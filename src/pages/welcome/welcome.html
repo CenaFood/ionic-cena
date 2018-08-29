@@ -13,6 +13,146 @@
 </ion-header>
 
 
-<ion-content padding>
 
-</ion-content>
+  <ion-slides pager>
+    <ion-slide>
+      <ion-row>
+        <ion-col>
+          <img src="assets/imgs/CenaAI.png">
+          <h2>Welcome to Cena Family</h2>
+          <p>We are Cenafood and we need <b>your</b> help. The Cena Swiper helps us to label food pictures. Our final goal is to create an artificial intelligence that can learn your taste and help us find the best plates served around you. Help us reach our ultimate goal by swiping some images. </p>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <button ion-button block (click)='this.slides.slideNext()'>Get me involved</button>
+        </ion-col>
+      </ion-row>
+    </ion-slide>
+
+    <ion-slide>
+      <ion-row>
+        <ion-col>
+          <img src="assets/imgs/IllustrationLike.png" />
+          <h1>Mhmm</h1>
+          <p>If you like what you see and it is acually food. Swipe <b>Right.</b></p>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <button ion-button block (click)='this.slides.slideNext()'>Got it</button>
+        </ion-col>
+      </ion-row>
+    </ion-slide>
+
+    <ion-slide>
+      <ion-row>
+        <ion-col>
+          <img src="assets/imgs/IllustrationDislike.png" />
+          <h1>Yuk!</h1>
+          <p>If you dislike what you see but it's sill food. Swipe <b>Left</b>.</p>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <button ion-button block (click)='this.slides.slideNext()'>Got it</button>
+        </ion-col>
+      </ion-row>
+    </ion-slide>
+
+    <ion-slide>
+      <ion-row>
+        <ion-col>
+          <img src="assets/imgs/IllustrationNoFood.png" />
+          <h1>What?</h1>
+          <p>If you see something that is not food, something unidentifyable swipe <b>up</b> or <b>down.</b></p>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <button ion-button block (click)='this.slides.slideNext()'>Let's go!</button>
+        </ion-col>
+      </ion-row>
+    </ion-slide>
+
+    <ion-slide id='login'>
+      <div [ngSwitch]="authType">
+        <div *ngSwitchCase="'login'">
+          <h1>
+            Login
+          </h1>
+          <form #signForm="ngForm" (ngSubmit)="authenticate(signForm.value)">
+            <ion-row>
+              <ion-col>
+                <ion-list>
+                  <ion-item>
+                    <ion-label color="primary" stacked>Email</ion-label>
+                    <ion-input type="email" placeholder="Email" name="email" ngModel></ion-input>
+                  </ion-item>
+                  <ion-item>
+                    <ion-label color="primary" stacked>Password</ion-label>
+                    <ion-input type="password" placeholder="Password" name="password" ngModel></ion-input>
+                  </ion-item>
+                </ion-list>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-card color="secondary" *ngIf="auth.error">
+                <ion-card-content>
+                  {{auth.error}}
+                </ion-card-content>
+              </ion-card>
+            </ion-row>
+            <ion-row>
+              <ion-col>
+                <button ion-button block type="submit">Start discovering!</button>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col>
+                <p>Not registered yet? <a (click)="setAuthType('signup')">Sign up here.</a> </p>
+              </ion-col>
+            </ion-row>
+          </form>
+        </div>
+        <div *ngSwitchCase="'signup'">
+          <h1>
+            Register
+          </h1>
+          <form #signForm="ngForm" (ngSubmit)="authenticate(signForm.value)">
+            <ion-row>
+              <ion-col>
+                <ion-list>
+                  <ion-item>
+                    <ion-label color="primary" stacked>Email</ion-label>
+                    <ion-input type="email" placeholder="Email" name="email" ngModel></ion-input>
+                  </ion-item>
+                  <ion-item>
+                    <ion-label color="primary" stacked>Password</ion-label>
+                    <ion-input type="password" placeholder="Password" name="password" ngModel></ion-input>
+                  </ion-item>
+                </ion-list>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-card color="secondary" *ngIf="auth.error">
+                <ion-card-content>
+                  {{auth.error}}
+                </ion-card-content>
+              </ion-card>
+              <ion-row>
+              </ion-row>
+              <ion-col>
+                <button ion-button block type="submit">Start discovering!</button>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col>
+                <p>Already have an Account? <a (click)="setAuthType('login')">Sign in</a> </p>
+              </ion-col>
+            </ion-row>
+          </form>
+        </div>
+      </div>
+    </ion-slide>
+  </ion-slides>

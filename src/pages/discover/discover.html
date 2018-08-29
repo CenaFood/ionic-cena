@@ -5,14 +5,43 @@
   Ionic pages and navigation.
 -->
 <ion-header>
-
-  <ion-navbar>
+  <ion-navbar color="primary">
     <ion-title>Discover</ion-title>
   </ion-navbar>
-
 </ion-header>
 
 
-<ion-content padding>
-
+<ion-content>
+  <ion-spinner *ngIf="cards?.length == 0"></ion-spinner>
+  <ion-grid>
+      <div id="viewport">
+        <div class="stack" swing-stack [stackConfig]="stackConfig" #myswing1>
+          <ion-card swing-card #mycards1 *ngFor="let c of cards; trackBy:trackByCards; let i=index"
+          [style.zIndex]="-1 * i">
+            <img src={{c.image.url}}>
+            <div class="card-overlay"></div>
+          </ion-card>
+        </div>
+      </div>
+    <ion-row class="button-row" *ngIf="cards?.length > 0">
+      <ion-col>
+        <button ion-button outline color="dislike" (click)="voteDislike()">
+          <ion-icon name="thumbs-down"></ion-icon>
+        </button>
+        <p ion-text color="dislike">Dislike</p>
+      </ion-col>
+      <ion-col>
+        <button ion-button outline color="nonfood" (click)="voteNofood()">
+          <ion-icon name="cena-no-food"></ion-icon>
+        </button>
+        <p ion-text color="nonfood">No Food</p>
+      </ion-col>
+      <ion-col>
+        <button ion-button outline color="like" (click)="voteLike()">
+          <ion-icon name="thumbs-up"></ion-icon>
+        </button>
+        <p ion-text color="like">Like</p>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>

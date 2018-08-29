@@ -5,14 +5,35 @@
   Ionic pages and navigation.
 -->
 <ion-header>
-
-  <ion-navbar>
+  <ion-navbar color="primary">
     <ion-title>Rewards</ion-title>
   </ion-navbar>
-
 </ion-header>
 
 
 <ion-content padding>
-
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>
+        Progress
+      </ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <circle-progress [percent]='percentPersonal' [subtitleFormat]='formatSubtitle'></circle-progress>
+      <h1>{{quote}}</h1>
+      <p>We are Cenafood and we need <b>your</b> help. The Cena Swiper helps us to label food pictures. Our final goal is to create an artificial intelligence that can learn your taste and help us find the best plates served around you. Help us reach our ultimate goal by swiping some images. </p>
+    </ion-card-content>
+  </ion-card>
+  <ion-card>
+    <img src="assets/imgs/Food.png">
+    <div class="card-logo">
+      <ion-icon name="ribbon"></ion-icon>
+    </div>
+    <ion-card-content>
+      <ion-card-title>
+        Rewards
+      </ion-card-title>
+      <p>Currently we are working on a reward system. Your swipes will be taken in to account when rewards are available.</p>
+    </ion-card-content>
+  </ion-card>
 </ion-content>
