@@ -41,17 +41,18 @@ import { NgCircleProgressModule } from 'ng-circle-progress';
     IonicStorageModule.forRoot(),
     NgCircleProgressModule.forRoot({
       radius : 80,
-      space : -10,
+      space : -13,
       toFixed : 0,
       maxPercent : 1000,
       unitsFontSize : "18",
       outerStrokeWidth : 10,
-      outerStrokeColor : "#8000ff",
+      outerStrokeColor : "#922cdf",
       innerStrokeColor : "#f4f4ef",
-      innerStrokeWidth : 10,
+      innerStrokeWidth : 16,
       titleFontSize : "26",
-      subtitleColor : "#444444",
-      animationDuration : 300,
+      titleColor : "#1f2b58",
+      subtitleColor : "#82669b",
+      animationDuration : 800,
       showBackground : false,
       responsive : true
     })
