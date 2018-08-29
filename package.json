@@ -1,8 +1,8 @@
 {
-  "name": "cena",
-  "version": "0.0.1",
-  "author": "Ionic Framework",
-  "homepage": "http://ionicframework.com/",
+  "name": "Cena Swiper",
+  "version": "0.0.3",
+  "author": "Cena Team",
+  "homepage": "https://github.com/CenaFood/ionic-cena",
   "private": true,
   "scripts": {
     "clean": "ionic-app-scripts clean",
