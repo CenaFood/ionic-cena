@@ -22,6 +22,7 @@ export class DiscoverPage {
 
   cards: Array<Challenge>;
   stackConfig: StackConfig;
+  refreshTimer;
 
   constructor(private api: ApiProvider, private annotatations: AnnotationProvider) {
     this.stackConfig = {
@@ -29,7 +30,7 @@ export class DiscoverPage {
       allowedDirections: [
         Direction.UP,
         Direction.DOWN,
-        Direction.LEFT, 
+        Direction.LEFT,
         Direction.RIGHT
       ],
       // Now need to send offsetX and offsetY with element instead of just offset
@@ -38,7 +39,7 @@ export class DiscoverPage {
         let ySensitivity = 3;
         return Math.min(
           Math.max(
-            Math.abs(offsetX) / (targetElement.offsetWidth / xSensitivity), 
+            Math.abs(offsetX) / (targetElement.offsetWidth / xSensitivity),
             Math.abs(offsetY) / (targetElement.offsetHeight / ySensitivity)
           ), 1);
       },
@@ -55,47 +56,53 @@ export class DiscoverPage {
       event.target.style.background = '#ffffff';
     });
 
-    this.swingStack.throwout.subscribe((event: ThrowEvent) =>
-    {
+    this.swingStack.throwout.subscribe((event: ThrowEvent) => {
       let challenge = this.cards.shift()
       this.swingStack.cards.shift();
-      if(this.cards.length < 15){
+      if (this.cards.length < 15) {
         this.addNewCards();
       }
       this.makeAnnotation(challenge, event.throwDirection)
     });
 
-    this.swingStack.dragmove.subscribe((event: DragEvent) => this.colorOverlay(event.target,event.throwDirection,event.throwOutConfidence));
+    this.swingStack.dragmove.subscribe((event: DragEvent) => this.colorOverlay(event.target, event.throwDirection, event.throwOutConfidence));
     this.swingStack.dragend.subscribe((event: DragEvent) => this.resetOverlay(event.target));
-
-    setInterval(() => {
-      if(this.cards.length == 0){
-        this.addNewCards();
-      }
-    }, 7000);
 
     //Add cards when providers are ready
     Promise.all([this.api.authReady()]) //TODO: , this.annotatations.ready()
-    .then(
-      () => this.addNewCards()
-    );
+      .then(
+        () => this.addNewCards()
+      );
   }
-    
-  addNewCards(){
+
+  ionViewDidEnter() {
+    this.refreshTimer = setInterval(() => {
+      console.log("Check cardstack has cards.")
+      if (this.cards.length == 0) {
+        this.addNewCards();
+      }
+    }, 7000);
+  }
+
+  ionViewDidLeave(){
+    clearInterval(this.refreshTimer);
+  }
+
+  addNewCards() {
     console.log("Adding new cards");
-    
+
     this.api.ApiGet("/challenges")
-    .then((challenges: Challenge[]) => {
-      challenges.forEach(c => this.cards.push(c));
-    })
-    .catch(error => console.log(error))
+      .then((challenges: Challenge[]) => {
+        challenges.forEach(c => this.cards.push(c));
+      })
+      .catch(error => console.log(error))
   }
-  
+
   trackByCards(index: number, card: Challenge) {
     return card.id;
   }
 
-  makeAnnotation(challenge: Challenge, direction: Direction){
+  makeAnnotation(challenge: Challenge, direction: Direction) {
     let result: string;
     switch (direction) {
       case Direction.LEFT:
@@ -109,9 +116,9 @@ export class DiscoverPage {
         result = "Yes";
         break;
     }
-    this.annotatations.postAnnotation(challenge.id,result)
-    .then(() => console.log("Made annotation"))
-    .catch(() => console.log("Annotation failed"));
+    this.annotatations.postAnnotation(challenge.id, result)
+      .then(() => console.log("Made annotation"))
+      .catch(() => console.log("Annotation failed"));
   }
 
   colorOverlay(target: HTMLElement, direction: Direction, throwOutConfidence: number) {
@@ -143,7 +150,7 @@ export class DiscoverPage {
     overlay.style.opacity = Math.min(throwOutConfidence * 2, 0.7).toString();
   }
 
-  resetOverlay(target: HTMLElement){
+  resetOverlay(target: HTMLElement) {
     let overlay: HTMLElement;
     //this is the overlay div
     overlay = target.children[1] as HTMLElement;
@@ -153,17 +160,17 @@ export class DiscoverPage {
 
   voteLike() {
     let removedCard = this.swingStack.cards[0].getCard();
-    removedCard.throwOut(1,0)
+    removedCard.throwOut(1, 0)
   }
 
-  voteDislike(){ 
+  voteDislike() {
     let removedCard = this.swingStack.cards[0].getCard();
-    removedCard.throwOut(-1,0);
+    removedCard.throwOut(-1, 0);
   }
 
-  voteNofood(){
+  voteNofood() {
     let removedCard = this.swingStack.cards[0].getCard();
-    removedCard.throwOut(0,-1);
+    removedCard.throwOut(0, -1);
   }
 
 }
