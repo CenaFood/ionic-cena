@@ -49,11 +49,11 @@ export class RewardsPage {
 
   formatSubtitle = (percent: number): string => {
     if (percent >= 150) {
-      return "Masterlabler"
+      return "Master labeler"
     } else if (percent >= 100) {
       return "Puh, Got it!"
     } else if (percent >= 75) {
-      return "Allmost there"
+      return "Almost there"
     } else if (percent > 0) {
       return "Keep going!"
     } else {
@@ -63,7 +63,7 @@ export class RewardsPage {
 
   getQuote(percent: number): string {
     if (percent >= 150) {
-      return "You are an Official Masterlabler"
+      return "You are an Official Master labeler"
     } else if (percent >= 100) {
       return "Puh, Got it!"
     } else if (percent >= 80) {

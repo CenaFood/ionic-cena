@@ -24,7 +24,7 @@ export class DiscoverPage {
   stackConfig: StackConfig;
   refreshTimer;
 
-  constructor(private api: ApiProvider, private annotatations: AnnotationProvider) {
+  constructor(private api: ApiProvider, private annotations: AnnotationProvider) {
     this.stackConfig = {
       // Default setting only allows UP, LEFT and RIGHT so you can override this as below
       allowedDirections: [
@@ -69,7 +69,7 @@ export class DiscoverPage {
     this.swingStack.dragend.subscribe((event: DragEvent) => this.resetOverlay(event.target));
 
     //Add cards when providers are ready
-    Promise.all([this.api.authReady()]) //TODO: , this.annotatations.ready()
+    Promise.all([this.api.authReady()]) 
       .then(
         () => this.addNewCards()
       );
@@ -116,7 +116,7 @@ export class DiscoverPage {
         result = "Yes";
         break;
     }
-    this.annotatations.postAnnotation(challenge.id, result)
+    this.annotations.postAnnotation(challenge.id, result)
       .then(() => console.log("Made annotation"))
       .catch(() => console.log("Annotation failed"));
   }
