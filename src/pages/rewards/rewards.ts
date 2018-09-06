@@ -20,7 +20,6 @@ export class RewardsPage {
   quote: string;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private api: ApiProvider) {
-    this.updatePercent();
   }
 
   ionViewDidLoad() {
