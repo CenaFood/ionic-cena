@@ -27,37 +27,31 @@ export class AnnotationProvider {
     return new Promise((resolve,reject) => {
       this.geolocation.getCurrentPosition(this.geoopitons)
       .then((val) => {
-        console.log(val);
-        let result: Annotation = {
-          challengeID: challengeId,
-          answer: answer,
-          latitude: val.coords.latitude,
-          longitude: val.coords.longitude,
-          localTime: new Date().toISOString()
-        }
-
-        console.log(JSON.stringify(result));
+        let result = this.getAnnotation(challengeId, answer, val.coords.longitude, val.coords.latitude)
         this.api.ApiPost('/annotations', result)
         .then(resolve)
         .catch(reject);
       })
       .catch((val) => {
-
         this.showLocationToast();
-        let result: Annotation = {
-          challengeID: challengeId,
-          answer: answer,
-          latitude: 0,
-          longitude: 0,
-          localTime: new Date().toISOString()
-        }
-
-        console.log(JSON.stringify(result));
+        let result = this.getAnnotation(challengeId, answer)
         this.api.ApiPost('/annotations', result)
         .then(resolve)
         .catch(reject);
       });
     });   
+  }
+
+  getAnnotation(challengeId:string, answer:string, longitude?: number, latitude?: number){
+    let result: Annotation = {
+      challengeID: challengeId,
+      answer: answer,
+      latitude: latitude ? latitude : 0,
+      longitude: longitude ? longitude : 0,
+      localTime: new Date().toISOString()
+    }
+    console.log(JSON.stringify(result));
+    return result;
   }
 
   showLocationToast(){
