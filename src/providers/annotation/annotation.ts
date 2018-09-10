@@ -16,7 +16,7 @@ export class AnnotationProvider {
   geoopitons: GeolocationOptions = {
     enableHighAccuracy: false,
     maximumAge: 300000,  // 5 minutes
-    timeout: 80     // must be defined to 
+    timeout: 1000        // must be defined to 
   }
 
   constructor(private geolocation: Geolocation, private api: ApiProvider, private toastCtrl: ToastController) {
